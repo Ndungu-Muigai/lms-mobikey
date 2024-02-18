@@ -14,14 +14,15 @@ import './assets/css/toast.css'
 
 function App() 
 {
+
   return (
     <>
-      <ToastContainer autoClose={2000} className="mx-1" pauseOnHover={false} pauseOnFocusLoss={false}/>
+      <ToastContainer autoClose={2000} pauseOnHover={false} newestOnTop={false} pauseOnFocusLoss={false}/>
      <Routes>
         <Route exact path='/' element={<Home/>}></Route>
-        <Route exact path='/login' element={<Login/>}></Route>
+        <Route exact path='/login' element={<Login />}></Route>
         <Route exact path='/reset' element={<Reset/>}></Route>
-        <Route exact path='/dashboard/*' element={<DashboardLayout/>}></Route>
+        <Route exact path='/dashboard/*' element={<DashboardLayout />}></Route>
      </Routes>
     </>
   );
