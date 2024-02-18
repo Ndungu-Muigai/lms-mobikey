@@ -1,0 +1,140 @@
+.background
+{
+    background: url(../../assets/images/Background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+.navbar
+{
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 0 !important;
+}
+.navbar a
+{
+    background: linear-gradient(rgba(0, 0, 0, 0.377), rgba(0, 0, 0, 0.062));
+    padding: 20px 30px !important;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+}
+.navbar a:hover
+{
+    cursor: pointer;
+    color: blue;
+}
+.message
+{
+    height: 85vh;
+}
+.text
+{
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.25);
+    color: #f1f1f1;
+}
+.text h2
+{
+    font-weight: bold;
+}
+@media screen and (min-width:320px) and (max-width: 375px) 
+{
+    .text
+    {
+        padding: 20px;
+    }
+    .text h2
+    {
+        font-size: 1.5em;
+    }
+    .text p
+    {
+        font-size: 1.2em;
+    }
+}
+@media screen and (min-width:376px) and (max-width: 425px) 
+{
+    .text
+    {
+        padding: 20px;
+        line-height: 1.2;
+    }
+    .text h2
+    {
+        font-size: 1.5em;
+    }
+    .text p
+    {
+        font-size: .9em;
+    }
+}
+@media screen and (min-width:426px) and (max-width: 768px) 
+{
+    .text
+    {
+        padding: 40px;
+        line-height: 2;
+    }
+    .text h2
+    {
+        font-size: 2.3em;
+    }
+    .text p
+    {
+        font-size: 1.6em;
+    }
+}
+@media screen and (min-width:769px) and (max-width: 1024px) 
+{
+    .navbar a
+    {
+        font-size: 1.4em;
+    }
+    .text
+    {
+        padding: 30px;
+    }
+    .text h2
+    {
+        font-size: 2.8em;
+    }
+    .text p
+    {
+        font-size: 1.7em;
+    }
+}
+@media screen and (min-width:1025px) and (max-width: 1439px) 
+{
+    .text
+    {
+        padding: 40px;
+        line-height: 2.5;
+    }
+    .text h2
+    {
+        font-size: 2.5em;
+    }
+    .text p
+    {
+        font-size: 1.4em;
+    }
+}
+@media screen and (min-width:1440px)
+{
+    .text
+    {
+        padding: 45px;
+        line-height: 3;
+    }
+    .text h2
+    {
+        font-size: 3.5em;
+    }
+    .text p
+    {
+        font-size: 2.5em;
+    }
+}

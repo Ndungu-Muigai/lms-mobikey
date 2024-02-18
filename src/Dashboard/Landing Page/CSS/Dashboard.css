@@ -1,0 +1,41 @@
+.dashboard
+{
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    align-items: flex-start;
+}
+.history .pie-chart
+{
+    display: flex;
+    justify-content: flex-start;
+}
+.history h1, .upcoming h1
+{
+    margin-left: 15px;
+}
+.upcoming .table
+{
+    margin-left: 20px;
+    margin-top: 15px;
+}
+@media screen and (min-width: 320px) and (max-width: 768px)
+{
+    .dashboard
+    {
+        flex-direction: column;
+        gap: 40px;
+    }
+    .history, .upcoming
+    {
+        width: 100%;
+    }
+    .history h1, .upcoming h1
+    {
+        margin-left: 10px;
+    }
+    .upcoming .table
+    {
+        margin: 10px 7px;
+    }
+}

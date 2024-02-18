@@ -1,0 +1,47 @@
+.tiles
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+.tile
+{
+    border: 1px solid black;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px;
+    width: calc(100% /5);
+    height: 120px;
+    text-align: center;
+}
+.tile h4
+{
+    font-weight: bolder;
+    font-size: 1.5em;
+}
+.tile h5
+{
+    font-weight: 900;
+    font-size: 1.2em;
+}
+.tile i
+{
+    font-size: 1.8em;
+}
+@media screen and (min-width: 320px) and (max-width: 768px)
+{
+    .tiles
+    {
+        flex-direction: column;
+        gap: 5px;
+        justify-content: center;
+        align-items: center;
+    }
+    .tile
+    {
+        width: 70%;
+        margin: 10px;
+    }
+}
