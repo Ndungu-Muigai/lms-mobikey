@@ -21,7 +21,7 @@ const LeaveBreakdown = ({leaveDays}) =>
     return ( 
         <>
             <div className='border-start history'>
-                <h1 className='text-uppercase fw-bolder fs-2 '>Leave Breakdown</h1>
+                <h1 className='text-uppercase fw-bolder fs-2 '>Leave history Breakdown</h1>
                 <div className='pie-chart'>
                     <PieChart series={[{data: chartData,outerRadius: 100}]} width={400} height={200}/>
                 </div>

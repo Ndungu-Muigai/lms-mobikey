@@ -16,7 +16,7 @@
 }
 .upcoming .table
 {
-    margin-left: 20px;
+    margin-left: 15px;
     margin-top: 15px;
 }
 @media screen and (min-width: 320px) and (max-width: 768px)
@@ -36,6 +36,7 @@
     }
     .upcoming .table
     {
-        margin: 10px 7px;
+        width: 95%;
+       margin: 0px auto;
     }
 }
