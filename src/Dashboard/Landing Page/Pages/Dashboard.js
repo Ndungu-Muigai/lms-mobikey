@@ -8,9 +8,9 @@ const Dashboard = ({full_name, leaveDays}) =>
 {
     return ( 
         <>
-            <h1 className="text-uppercase text-center fw-bold" style={{marginTop: "70px"}}>Welcome back, {full_name}</h1>
+            <h1 className="text-uppercase text-center fw-bold">Welcome back, {full_name}</h1>
             <Tiles leaveDays={leaveDays}/>
-            <div className="dashboard mt-1">
+            <div className="dashboard">
                 <PieChart leaveDays={leaveDays}/>
                 <UpcomingLeave/>
             </div>

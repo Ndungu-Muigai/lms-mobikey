@@ -4,7 +4,7 @@ const Tiles = ({leaveDays}) =>
 {
     return ( 
         <>
-            <div className="tiles mt-2">
+            <div className="tiles">
                 <div className="tile">
                     <i className='fa fa-history'></i>
                     <h4>{leaveDays.total_requests}</h4>

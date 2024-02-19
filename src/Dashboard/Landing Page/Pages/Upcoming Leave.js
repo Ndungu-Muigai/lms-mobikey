@@ -4,7 +4,7 @@ const UpcomingLeave = ({upcomingLeave}) =>
 {
     return ( 
         <div className="border-start upcoming">
-            <h1 className='text-uppercase fs-2 fw-bolder'>Upcoming department leave</h1>
+            <h1 className='text-uppercase fs-3 fw-bolder'>Upcoming department leave</h1>
             <Table className='table table-striped table-bordered'>
                 <thead>
                     <tr>

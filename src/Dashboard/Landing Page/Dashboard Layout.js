@@ -1,14 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect, useState} from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import Navbar from '../Dashboard Components/Navbar/Navbar'
 import Sidebar from '../Dashboard Components/Sidebar/Sidebar'
 import Dashboard from './Pages/Dashboard'
 import { toast } from 'react-toastify'
 
+import './CSS/Layout.css'
+
 const DashboardLayout = () => 
 {
     const navigate=useNavigate()
-
+    const location=useLocation()
+    
     const [full_name, setFullName]=useState("")
     const [leaveDays, setLeaveDays]=useState()
     const [role, setRole]=useState("")
@@ -39,6 +43,12 @@ const DashboardLayout = () =>
         })
     },[navigate])
 
+    //Closing the sidebar once the location changes 
+    useEffect(()=>
+    {
+        sidebarOpen && setSidebarOpen(false)
+    },[location])
+
     return(
         <>
             {
@@ -47,9 +57,11 @@ const DashboardLayout = () =>
                     <>
                         <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>
                         <Sidebar role={role} sidebarOpen={sidebarOpen}/>
-                        {/* <Routes>
+                        <main className='main-container' onClick={()=> sidebarOpen && setSidebarOpen(false)}>
+                            <Routes>
                             <Route exact path='/' element={<Dashboard full_name={full_name} leaveDays={leaveDays}/>}></Route>
-                        </Routes> */}
+                        </Routes>
+                        </main>
                     </>
                 :
                     null
