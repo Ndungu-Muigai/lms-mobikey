@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useState} from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import Navbar from '../Dashboard Components/Navbar/Navbar'
 // import Sidebar from '../Dashboard Components/Sidebar/Sidebar'
@@ -11,54 +11,48 @@ const DashboardLayout = () =>
 
     const [full_name, setFullName]=useState("")
     const [leaveDays, setLeaveDays]=useState()
-    const id=useRef(null)
-
 
     useEffect(()=>
     {
-        fetch("/dashboard")
+        fetch("/home")
         .then(response => response.json())
         .then(data => 
         {
-            setFullName(data.full_name)
-            setLeaveDays(data.leave_days)
+            if(data.success)
+            {
+                setFullName(data.full_name);
+                setLeaveDays(data.leave_days)
+            }
+            else
+            {
+                navigate("/login")
+                toast.error(data.error,
+                    {
+                        position: "top-right",
+                        toastId: "auth",
+                        className: "toast-message"
+                    })
+            }
         })
-        
-    },[])
+    },[navigate])
 
-    return ( 
+    return(
         <>
             {
-                full_name 
-                ? 
+                full_name
+                ?
                     <>
-                        {toast.dismiss()}
                         <Navbar/>
                         {/* <Sidebar/> */}
                         <Routes>
                             <Route exact path='/' element={<Dashboard full_name={full_name} leaveDays={leaveDays}/>}></Route>
                         </Routes>
                     </>
-                : 
-                    <>
-                        {
-                            toast.error("Kindly log in to continue",
-                            {
-                                position: "top-right",
-                                toastId: "auth",
-                                className: "toast-message",
-                                autoClose: 2000,
-                                onClose:  () =>
-                                {
-                                    id.current="auth"
-                                    navigate("/login")   
-                                }
-                            })
-                        }
-                    </>
+                :
+                    null
             }
         </>
-     );
+    )
 }
  
 export default DashboardLayout;

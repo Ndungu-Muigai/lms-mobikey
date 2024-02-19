@@ -14,7 +14,6 @@ const NavBar = () =>
         .then(response => response.json())
         .then(message => 
             {
-                console.log(message)
                 message.success ? 
                     toast.success(message.success,
                     {
