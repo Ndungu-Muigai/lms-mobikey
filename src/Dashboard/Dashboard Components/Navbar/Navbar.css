@@ -1,0 +1,16 @@
+.navbar a
+{
+    color: white;
+    padding: 20px;
+}
+.navbar a:hover
+{
+    cursor: pointer;
+    color: blue;
+}
+.navbar i
+{
+    font-size: 30px;
+    margin: 15px 30px;
+    color: white;
+}

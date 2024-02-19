@@ -5,7 +5,7 @@ const Home = () =>
 {
     return ( 
         <div className="background">
-            <nav className="navbar d-flex justify-content-end">
+            <nav className="nav d-flex justify-content-end">
                 <Link to="/login">Login</Link>
             </nav>
             <div className="message d-flex  justify-content-center align-items-center">

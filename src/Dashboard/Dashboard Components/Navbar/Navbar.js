@@ -1,7 +1,11 @@
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+
+import './Navbar.css'
+
 const NavBar = () => 
 {
     const navigate=useNavigate()
@@ -32,7 +36,10 @@ const NavBar = () =>
     }
     return ( 
         <>
-            <Navbar fixed='top' style={{height: "65px"}} className='bg-dark'>
+            <Navbar fixed='top' style={{height: "65px"}} className='bg-dark navbar'>
+                <Navbar.Brand>
+                    <i className="fa fa-bars hamburger" aria-hidden="true"></i>
+                </Navbar.Brand>
                 <Navbar.Collapse className='justify-content-end'>
                     <Nav.Link href='/profile'>Profile</Nav.Link>
                     <Nav.Link onClick={logOut}>Sign Out</Nav.Link>

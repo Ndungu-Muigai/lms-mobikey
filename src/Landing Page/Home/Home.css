@@ -5,21 +5,21 @@
     background-repeat: no-repeat;
     height: 100vh;
 }
-.navbar
+.nav
 {
     display: flex;
     justify-content: flex-end;
     padding-top: 0 !important;
 }
-.navbar a
+.nav a
 {
     background: linear-gradient(rgba(0, 0, 0, 0.377), rgba(0, 0, 0, 0.062));
-    padding: 20px 30px !important;
+    padding: 15px 25px !important;
     text-decoration: none;
     text-align: center;
     color: white;
 }
-.navbar a:hover
+.nav a:hover
 {
     cursor: pointer;
     color: blue;
