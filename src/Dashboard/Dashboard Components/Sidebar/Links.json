@@ -1,0 +1,37 @@
+[
+    {
+        "title": "Dashboard",
+        "icon": "fa fa-home",
+        "path":"/dashboard",
+        "roles": ["User","HOD","GM","HR"]
+    },
+    {
+        "title": "Leave",
+        "icon": "fa fa-calendar",
+        "path":"/leave",
+        "roles": ["User","HOD","GM","HR"]
+    },
+    {
+        "title": "Employee Requests",
+        "icon":"fas fa-clipboard-list",
+        "roles": ["HOD","GM","HR"],
+        "children":
+        [
+            {
+                "title":"Pending Requests",
+                "icon": "fa-solid fa-clipboard-list",
+                "path":"/pending-employee-requests"
+            },
+            {
+                "title":"All Requests",
+                "icon":"fa fa-list-alt",
+                "path":"/all-employee-requests"
+            }
+        ]
+    },
+    {
+        "title":"Employees",
+        "icon":"fa fa-user",
+        "roles": ["HR"]
+    }
+]

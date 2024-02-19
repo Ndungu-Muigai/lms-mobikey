@@ -6,8 +6,10 @@ import { useNavigate } from 'react-router-dom';
 
 import './Navbar.css'
 
-const NavBar = () => 
+const NavBar = ({sidebarOpen, setSidebarOpen}) => 
 {
+    console.log(sidebarOpen)
+    console.log(setSidebarOpen)
     const navigate=useNavigate()
     const logOut= () =>
     {
@@ -38,7 +40,7 @@ const NavBar = () =>
         <>
             <Navbar fixed='top' style={{height: "65px"}} className='bg-dark navbar'>
                 <Navbar.Brand>
-                    <i className="fa fa-bars hamburger" aria-hidden="true"></i>
+                    <i className={`hamburger ${sidebarOpen ? "fa fa-close" : "fa fa-bars"}`} aria-hidden="true" onClick={()=> setSidebarOpen(!sidebarOpen)}></i>
                 </Navbar.Brand>
                 <Navbar.Collapse className='justify-content-end'>
                     <Nav.Link href='/profile'>Profile</Nav.Link>
