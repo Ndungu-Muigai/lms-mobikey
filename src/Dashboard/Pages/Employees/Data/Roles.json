@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "title": "User",
+        "role": "User"
+    },
+    {
+        "id": 2,
+        "title": "Head of Department",
+        "role": "HOD"
+    },
+    {
+        "id": 3,
+        "title": "Human Resource Manager",
+        "role": "HR"
+    },
+    {
+        "id": 4,
+        "title": "General Manager",
+        "role":"GM"
+    }
+]

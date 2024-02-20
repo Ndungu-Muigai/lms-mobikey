@@ -4,13 +4,16 @@ import { toast } from 'react-toastify';
 
 import TableData from './Table Data';
 import Pagination from 'react-bootstrap/Pagination';
+import Accordion from 'react-bootstrap/Accordion'
 
 import './Employees.css'
+import EmployeeForm from '../New Employee/Employee Form';
 const Employee = () => 
 {
     const [employeeData, setEmployeeData] = useState([]);
+
     const [currentPage, setCurrentPage] = useState(1);
-    const dataPerPage = 5;
+    const dataPerPage = 4;
 
     const lastEmployeeIndex = currentPage * dataPerPage;
     const firstEmployeeIndex = lastEmployeeIndex - dataPerPage;
@@ -45,6 +48,14 @@ const Employee = () =>
 
     return (
         <>
+            <Accordion className='mt-3'>
+                <Accordion.Item eventKey='0'>
+                    <Accordion.Header>Create a new employee</Accordion.Header>
+                    <Accordion.Body>
+                        <EmployeeForm setEmployeeData={setEmployeeData} employeeData={employeeData}/>
+                    </Accordion.Body>
+                </Accordion.Item>
+            </Accordion>
             <h1 className="text-uppercase text-center fw-bolder">All employees</h1>
             <table className="table table-striped table-bordered mt-3">
                 <thead>
