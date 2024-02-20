@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button'
 import { useState } from 'react'
 import {toast} from 'react-toastify'
 
-const EmployeeForm = ({employeeData, setEmployeeData}) => 
+const EmployeeForm = ({updateEmployeeData}) => 
 {
     const rolesOptions=Roles.map(roles => <option key={roles.id} value={roles.role}>{roles.title}</option>)
     
@@ -58,7 +58,7 @@ const EmployeeForm = ({employeeData, setEmployeeData}) =>
                             autoClose:2000,
                             onClose: ()=>
                             {
-                                setEmployeeData([...employeeData, data.employee_data])
+                                updateEmployeeData(data.employee_data)
                                 setEmployeeFormData(initialFormData)
                             }
                         })

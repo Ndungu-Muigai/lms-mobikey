@@ -11,8 +11,8 @@ import EmployeeForm from '../New Employee/Employee Form';
 const Employee = () => 
 {
     const [employeeData, setEmployeeData] = useState([]);
-
     const [currentPage, setCurrentPage] = useState(1);
+    const [isAccordionOpen, setAccordionOpen]=useState(true)
     const dataPerPage = 4;
 
     const lastEmployeeIndex = currentPage * dataPerPage;
@@ -29,10 +29,11 @@ const Employee = () =>
                 {
                 data.success
                 ?
-                    setEmployeeData(data.employee_data)
+                    setEmployeeData((data.employee_data).reverse())
                 :
                     navigate(-1);
-                    toast.error(data.error, {
+                    toast.error(data.error, 
+                    {
                         position: "top-right",
                         toastId: "employee-page-error",
                         autoClose: 2000
@@ -46,13 +47,21 @@ const Employee = () =>
 
     const totalPages = Math.ceil(employeeData.length / dataPerPage);
 
+    const updateEmployeeData=data =>
+    {
+        let updatedData=[...employeeData]
+        updatedData.unshift(data)
+        setEmployeeData(updatedData)
+        setAccordionOpen(!isAccordionOpen)
+    }
+
     return (
         <>
             <Accordion className='mt-3'>
-                <Accordion.Item eventKey='0'>
+                <Accordion.Item eventKey={isAccordionOpen ? null : "0"}>
                     <Accordion.Header>Create a new employee</Accordion.Header>
                     <Accordion.Body>
-                        <EmployeeForm setEmployeeData={setEmployeeData} employeeData={employeeData}/>
+                        <EmployeeForm updateEmployeeData={updateEmployeeData}/>
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
