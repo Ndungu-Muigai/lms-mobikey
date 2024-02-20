@@ -1,10 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect, useState} from 'react'
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { toast } from 'react-toastify'
+
 import Navbar from '../Dashboard Components/Navbar/Navbar'
 import Sidebar from '../Dashboard Components/Sidebar/Sidebar'
 import Dashboard from './Pages/Dashboard'
-import { toast } from 'react-toastify'
+import Employee from '../Pages/Employees/All Employees/All Employees'
 
 import './CSS/Layout.css'
 
@@ -60,6 +62,7 @@ const DashboardLayout = () =>
                         <main className='main-container' onClick={()=> sidebarOpen && setSidebarOpen(false)}>
                             <Routes>
                             <Route exact path='/' element={<Dashboard full_name={full_name} leaveDays={leaveDays}/>}></Route>
+                            <Route exact path='/employees' element={<Employee/>}></Route>
                         </Routes>
                         </main>
                     </>

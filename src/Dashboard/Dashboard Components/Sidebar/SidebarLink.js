@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const SidebarLink = ({ link, role }) => {
+const SidebarLink = ({ link, role }) => 
+{
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    let { title, path, icon, roles, children } = link;
+    let { title, path, icon, roles=[], children } = link;
+
+    
 
     return (
         <>
@@ -17,9 +20,8 @@ const SidebarLink = ({ link, role }) => {
                             <i className={`${dropdownOpen ? "fa fa-angle-up" : "fa fa-angle-down"} toggle-btn`}></i>
                         </div>
                         <ul className={dropdownOpen ? "dropdown-content-open sidebar-list" : "dropdown-content"}>
-                            {children.map((child, index) => (
-                                <SidebarLink key={index} link={child} role={role} />
-                            ))}
+                            {children.map((child, index) => 
+                                <SidebarLink key={index} link={child} role={role} />)}
                         </ul>
                     </li>
                 ) : (

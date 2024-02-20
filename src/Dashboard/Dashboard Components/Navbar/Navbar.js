@@ -8,8 +8,6 @@ import './Navbar.css'
 
 const NavBar = ({sidebarOpen, setSidebarOpen}) => 
 {
-    console.log(sidebarOpen)
-    console.log(setSidebarOpen)
     const navigate=useNavigate()
     const logOut= () =>
     {

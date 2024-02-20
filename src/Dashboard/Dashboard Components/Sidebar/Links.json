@@ -8,7 +8,7 @@
     {
         "title": "Leave",
         "icon": "fa fa-calendar",
-        "path":"/leave",
+        "path":"/dashboard/leave",
         "roles": ["User","HOD","GM","HR"]
     },
     {
@@ -20,18 +20,21 @@
             {
                 "title":"Pending Requests",
                 "icon": "fa-solid fa-clipboard-list",
-                "path":"/pending-employee-requests"
+                "path":"/dashboard/pending-employee-requests",
+                "roles": ["HOD","GM","HR"]
             },
             {
                 "title":"All Requests",
                 "icon":"fa fa-list-alt",
-                "path":"/all-employee-requests"
+                "roles": ["HOD","GM","HR"],
+                "path":"/dashboard/all-employee-requests"
             }
         ]
     },
     {
         "title":"Employees",
         "icon":"fa fa-user",
+        "path": "/dashboard/employees",
         "roles": ["HR"]
     }
 ]
