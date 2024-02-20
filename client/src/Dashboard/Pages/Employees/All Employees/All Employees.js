@@ -59,7 +59,7 @@ const Employees = () =>
     return (
         <>
             <Accordion className='mt-3'>
-                <Accordion.Item eventKey={isAccordionOpen ? null : "0"}>
+                <Accordion.Item eventKey={isAccordionOpen ? "1" : "0"}>
                     <Accordion.Header>Create a new employee</Accordion.Header>
                     <Accordion.Body>
                         <EmployeeForm updateEmployeeData={updateEmployeeData}/>
