@@ -8,12 +8,12 @@ import Accordion from 'react-bootstrap/Accordion'
 
 import './Employees.css'
 import EmployeeForm from '../New Employee/Employee Form';
-const Employee = () => 
+const Employees = () => 
 {
     const [employeeData, setEmployeeData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [isAccordionOpen, setAccordionOpen]=useState(true)
-    const dataPerPage = 4;
+    const dataPerPage = 10;
 
     const lastEmployeeIndex = currentPage * dataPerPage;
     const firstEmployeeIndex = lastEmployeeIndex - dataPerPage;
@@ -22,7 +22,8 @@ const Employee = () =>
 
     const navigate = useNavigate();
 
-    useEffect(() => {
+    useEffect(() => 
+    {
         fetch("/employees-data")
             .then(response => response.json())
             .then(data =>
@@ -65,7 +66,6 @@ const Employee = () =>
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
-            <h1 className="text-uppercase text-center fw-bolder">All employees</h1>
             <table className="table table-striped table-bordered mt-3">
                 <thead>
                     <tr>
@@ -104,4 +104,4 @@ const Employee = () =>
     );
 };
 
-export default Employee;
+export default Employees;

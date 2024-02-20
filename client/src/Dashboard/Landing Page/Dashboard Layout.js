@@ -7,6 +7,7 @@ import Navbar from '../Dashboard Components/Navbar/Navbar'
 import Sidebar from '../Dashboard Components/Sidebar/Sidebar'
 import Dashboard from './Pages/Dashboard'
 import Employee from '../Pages/Employees/All Employees/All Employees'
+import IndividualEmployee from '../Pages/Employees/Employee/Employee Details'
 
 import './CSS/Layout.css'
 
@@ -63,6 +64,7 @@ const DashboardLayout = () =>
                             <Routes>
                             <Route exact path='/' element={<Dashboard full_name={full_name} leaveDays={leaveDays}/>}></Route>
                             <Route exact path='/employees' element={<Employee/>}></Route>
+                            <Route exact path='/employees/:id' element={<IndividualEmployee/>}></Route>
                         </Routes>
                         </main>
                     </>

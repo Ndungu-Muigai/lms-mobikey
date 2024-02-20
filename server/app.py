@@ -262,13 +262,15 @@ class EmployeeByID(Resource):
         
         #Getting the value from the form
         normal_leave=request.json["normal_leave"]
+        sick_leave=request.json["sick_leave"]
 
         #If the current leave days is equal to the value being passed, return an error
-        if employee_to_update.leave_days.normal_leave == normal_leave:
+        if employee_to_update.leave_days.normal_leave == normal_leave or employee_to_update.leave_days.sick_leave == sick_leave:
             return make_response(jsonify({"error": "The current leave days count cannot be equal to the value provided"}), 409)
         
         #Updating the value of the employee's normal leave days
         employee_to_update.leave_days.normal_leave=normal_leave
+        employee_to_update.leave_days.sick_leave=sick_leave
         db.session.add(employee_to_update)
         db.session.commit()
 
