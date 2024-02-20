@@ -4,7 +4,6 @@ const TableData = ({employee}) =>
 {
     let{id, first_name, last_name, email, department, position}=employee
     return ( 
-        <>
             <tr>
                 <td data-label="First Name">{first_name}</td>
                 <td data-label="Last Name">{last_name}</td>
@@ -17,7 +16,6 @@ const TableData = ({employee}) =>
                     </Link>
                 </td>                    
             </tr>
-        </>
      );
 }
  

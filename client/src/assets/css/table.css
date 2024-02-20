@@ -9,22 +9,22 @@
 {
     .table thead
     {
-        display: none;
+        display: none !important;
     }
     .table, .table tbody, .table tr, .table td
     {
-		display: block;
-		width: 100%;
+		display: block !important;
+		width: 100% !important;
 	}
     .table tr
     {
-		margin-bottom:15px;
+		margin-bottom:15px !important;
 	}
 	.table td
     {
-		text-align: right;
-		padding-left: 50%;
-		position: relative;
+		text-align: right !important;
+		padding-left: 50% !important;
+		position: relative !important; 
 	}
 	.table td::before
     {
