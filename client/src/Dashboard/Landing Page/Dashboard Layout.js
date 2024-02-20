@@ -10,6 +10,7 @@ import Employee from '../Pages/Employees/All Employees/All Employees'
 import IndividualEmployee from '../Pages/Employees/Employee/Employee Details'
 
 import './CSS/Layout.css'
+import ErrorPage from '../../Error Page/404 Page'
 
 const DashboardLayout = () => 
 {
@@ -65,6 +66,7 @@ const DashboardLayout = () =>
                             <Route exact path='/' element={<Dashboard full_name={full_name} leaveDays={leaveDays}/>}></Route>
                             <Route exact path='/employees' element={<Employee/>}></Route>
                             <Route exact path='/employees/:id' element={<IndividualEmployee/>}></Route>
+                            <Route path='*' element={<ErrorPage/>}></Route>
                         </Routes>
                         </main>
                     </>
