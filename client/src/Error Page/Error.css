@@ -1,0 +1,42 @@
+.error-message
+{
+    margin: 40px auto;
+    width: 90%;
+    text-align: center;
+}
+.error-message h1
+{
+    text-transform: uppercase;
+    font-weight: bolder;
+    margin: 10px;
+}
+.error-message p
+{
+    font-weight: 800;
+    font-size: 1.3em;
+    margin: 10px auto;
+    width: 50%;
+}
+.error-message a
+{
+    margin: 20px;
+    border-radius: 10px;
+}
+@media screen and (min-width:320px) and (max-width:425px)
+{
+    .error-message img
+    {
+        width: 70%;
+    }
+    .error-message p
+    {
+        font-size: 1.1em;
+    }
+}
+@media screen and (min-width:1023px)
+{
+    .error-message p
+    {
+        font-size: 1.5em;
+    }
+}
