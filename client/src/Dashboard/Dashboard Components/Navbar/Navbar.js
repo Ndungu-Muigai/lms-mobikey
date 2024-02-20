@@ -41,7 +41,7 @@ const NavBar = ({sidebarOpen, setSidebarOpen}) =>
                     <i className={`hamburger ${sidebarOpen ? "fa fa-close" : "fa fa-bars"}`} aria-hidden="true" onClick={()=> setSidebarOpen(!sidebarOpen)}></i>
                 </Navbar.Brand>
                 <Navbar.Collapse className='justify-content-end'>
-                    <Nav.Link href='/profile'>Profile</Nav.Link>
+                    <Nav.Link href='/dashboard/profile'>Profile</Nav.Link>
                     <Nav.Link onClick={logOut}>Sign Out</Nav.Link>
                 </Navbar.Collapse>
             </Navbar>
