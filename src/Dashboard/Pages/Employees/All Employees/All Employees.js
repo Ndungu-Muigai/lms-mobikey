@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
 import TableData from './Table Data';
 import Pagination from 'react-bootstrap/Pagination';
 
-const Employee = () => {
+import './Employees.css'
+const Employee = () => 
+{
     const [employeeData, setEmployeeData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const dataPerPage = 5;
@@ -19,32 +22,20 @@ const Employee = () => {
     useEffect(() => {
         fetch("/employees-data")
             .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    setEmployeeData(data.employee_data);
-                } else {
+            .then(data =>
+                {
+                data.success
+                ?
+                    setEmployeeData(data.employee_data)
+                :
                     navigate(-1);
                     toast.error(data.error, {
                         position: "top-right",
                         toastId: "employee-page-error",
                         autoClose: 2000
                     });
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching employee data:', error);
-                navigate(-1);
-                toast.error('Error fetching employee data', {
-                    position: "top-right",
-                    toastId: "employee-page-error",
-                    autoClose: 2000
-                });
-            });
+                })
     }, [navigate]);
-
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
 
     const employeeDataMap = currentEmployees.map(employee => (
         <TableData key={employee.id} employee={employee} />
@@ -81,7 +72,7 @@ const Employee = () => {
                     <Pagination.First onClick={() => setCurrentPage(1)} title='First Page'/>
                     <Pagination.Prev onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} title='Previous'/>
                     {Array.from({ length: totalPages }, (_, i) => (
-                        <Pagination.Item key={i + 1} active={i + 1 === currentPage} onClick={() => setCurrentPage(i + 1)}>
+                        <Pagination.Item key={i + 1} active={i + 1 === currentPage} onClick={() => setCurrentPage(i + 1)} className={i + 1 === currentPage ? 'active-page' : ''}>
                             {i + 1}
                         </Pagination.Item>
                     ))}

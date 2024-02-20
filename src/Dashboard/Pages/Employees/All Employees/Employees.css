@@ -1,0 +1,12 @@
+.page-item
+{
+    --bs-pagination-color: black;
+    --bs-link-color: black;
+    --bs-pagination-focus-color: black;
+    --bs-pagination-color: var(--bs-link-color);
+}
+.active-page 
+{
+    --bs-pagination-active-bg: #198754;
+    --bs-pagination-active-border-color: none;
+}
