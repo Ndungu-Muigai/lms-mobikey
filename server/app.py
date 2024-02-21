@@ -121,7 +121,16 @@ class LeaveApplications(Resource):
         employee_id=session.get("employee_id")
         leave_applications=LeaveApplication.query.filter_by(employee_id=employee_id).all()
         leave_applications_dict=LeaveApplicationsSchema().dump(leave_applications,many=True)
-        return make_response(leave_applications_dict, 200)
+        leave_days=LeaveDays.query.filter_by(employee_id=employee_id).first()
+        leave_days_dict=LeaveDaysSchema().dump(leave_days, many=False)
+        employee=Employee.query.filter_by(id=employee_id).first()
+        return make_response(jsonify(
+            {
+                "leave_days": leave_days_dict,
+                "leave_applications": leave_applications_dict,
+                "gender": employee.gender
+            }
+        ),200)
     
     def post(self):
 

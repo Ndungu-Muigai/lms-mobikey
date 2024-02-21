@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import TableData from './Table Data';
+import TableData from './All Employees/Table Data';
 import Pagination from 'react-bootstrap/Pagination';
 import Accordion from 'react-bootstrap/Accordion'
 
-import './Employees.css'
-import EmployeeForm from '../New Employee/Employee Form';
+import './All Employees/Employees.css'
+import EmployeeForm from './New Employee/Employee Form';
+
 const Employees = () => 
 {
     const [employeeData, setEmployeeData] = useState([]);

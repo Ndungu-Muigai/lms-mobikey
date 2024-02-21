@@ -6,11 +6,13 @@ import { toast } from 'react-toastify'
 import Navbar from '../Dashboard Components/Navbar/Navbar'
 import Sidebar from '../Dashboard Components/Sidebar/Sidebar'
 import Dashboard from './Pages/Dashboard'
-import Employee from '../Pages/Employees/All Employees/All Employees'
+import Employees from '../Pages/Employees/Home'
 import IndividualEmployee from '../Pages/Employees/Employee/Employee Details'
+import ErrorPage from '../../Error Page/404 Page'
+import Leave from '../Pages/Leave/Home/Home Page'
 
 import './CSS/Layout.css'
-import ErrorPage from '../../Error Page/404 Page'
+
 
 const DashboardLayout = () => 
 {
@@ -64,8 +66,9 @@ const DashboardLayout = () =>
                         <main className='main-container' onClick={()=> sidebarOpen && setSidebarOpen(false)}>
                             <Routes>
                             <Route exact path='/' element={<Dashboard full_name={full_name} leaveDays={leaveDays}/>}></Route>
-                            <Route exact path='/employees' element={<Employee/>}></Route>
+                            <Route exact path='/employees' element={<Employees/>}></Route>
                             <Route exact path='/employees/:id' element={<IndividualEmployee/>}></Route>
+                            <Route exact path='/leave' element={<Leave/>}></Route>
                             <Route path='*' element={<ErrorPage/>}></Route>
                         </Routes>
                         </main>
