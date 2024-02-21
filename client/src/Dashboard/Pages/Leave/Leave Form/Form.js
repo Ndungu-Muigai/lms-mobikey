@@ -69,7 +69,7 @@ const LeaveForm = ({leaveDays, gender}) =>
                     </Form.Group>
                     <Form.Group className='col-md-6 mb-3'>
                         <Form.Label>File attachment</Form.Label>
-                        <Form.Control type='file' id='file_attachment' accept="image/*, application/pdf" ></Form.Control>
+                        <Form.Control type='file' id='file_attachment' accept="image/*, application/pdf"></Form.Control>
                     </Form.Group>
                     <Form.Group className='col-md-6 mb-3'>
                         <Form.Label>Reason</Form.Label>
