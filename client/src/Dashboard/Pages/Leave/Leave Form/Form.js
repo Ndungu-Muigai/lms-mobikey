@@ -52,14 +52,13 @@ const LeaveForm = ({leaveDays, gender}) =>
     },[leaveFormData.end_date, leaveFormData.leave_type, leaveFormData.leave_duration, leaveFormData.start_date])
 
     //Setting the file upload input field to required once the leave type is sick or paternity
-    const fileRequired=leaveFormData.leave_type==="Sick" || leaveFormData.type==="Paternity" ? "required" : ""
+    const fileRequired = leaveFormData.leave_type === "Sick" || leaveFormData.leave_type === "Paternity" ? "required" : ""
 
     //Form submission function
     const submitApplication= e =>
     {
         e.preventDefault()
-        console.log("Form submitted")
-        console.log(leaveFormData)
+        
         const formData = new FormData();
         formData.append("leave_type", leaveFormData.leave_type);
         formData.append("leave_duration", leaveFormData.leave_duration);
@@ -77,7 +76,6 @@ const LeaveForm = ({leaveDays, gender}) =>
         .then(response => response.json())
         .then(data => 
         {
-            console.log(data)
             data.success
             ?
                 toast.success(data.success,
@@ -161,7 +159,7 @@ const LeaveForm = ({leaveDays, gender}) =>
                     </Form.Group>
                     <Form.Group className='col-md-6 mb-3'>
                         <Form.Label>File attachment</Form.Label>
-                        <Form.Control type='file' id='file_attachment' onChange={handleFileInputChange} accept="image/*, application/pdf" required={fileRequired}></Form.Control>
+                        <Form.Control type='file' id='file_attachment' onChange={handleFileInputChange} accept="image/*, application/pdf" required={fileRequired} />
                     </Form.Group>
                     <Form.Group className='col-md-6 mb-3'>
                         <Form.Label>Reason</Form.Label>
