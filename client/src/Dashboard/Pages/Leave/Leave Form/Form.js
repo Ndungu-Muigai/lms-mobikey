@@ -6,6 +6,7 @@ import DateRange from '../Calculations/Date Ranges'
 import Days from '../Calculations/Leave Days'
 
 import { useEffect, useState } from 'react'
+import {toast} from 'react-toastify'
 
 const LeaveForm = ({leaveDays, gender}) => 
 {
@@ -27,11 +28,7 @@ const LeaveForm = ({leaveDays, gender}) =>
     const handleInputChange= e => setLeaveFormData({...leaveFormData, [e.target.id]: e.target.value})
 
     //Function to handle file input change
-    const handleFileInputChange = e => setLeaveFormData(
-        {
-            ...leaveFormData,
-            "file_attachment": e.target.files[0]
-        })
+    const handleFileInputChange = e => setLeaveFormData({ ...leaveFormData,file_attachment: e.target.files[0]})
 
     //useEffect hook to change the end date state back to default once the start date changes
     useEffect(()=>
@@ -63,10 +60,45 @@ const LeaveForm = ({leaveDays, gender}) =>
         e.preventDefault()
         console.log("Form submitted")
         console.log(leaveFormData)
+        const formData = new FormData();
+        formData.append("leave_type", leaveFormData.leave_type);
+        formData.append("leave_duration", leaveFormData.leave_duration);
+        formData.append("start_date", leaveFormData.start_date);
+        formData.append("end_date", leaveFormData.end_date);
+        formData.append("total_days", leaveFormData.total_days);
+        formData.append("file_attachment", leaveFormData.file_attachment);
+        formData.append("reason", leaveFormData.reason);
+
+        fetch("/leave-applications", 
+        {
+            method: "POST",
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => 
+        {
+            console.log(data)
+            data.success
+            ?
+                toast.success(data.success,
+                    {
+                        position: "top-right",
+                        className: "toast-message",
+                        autoClose: 2000
+                    })
+            :
+                toast.error(data.error,
+                    {
+                        position: "top-right",
+                        className: "toast-message",
+                        autoClose: 2000
+                    })
+        });
+       
     }
     return ( 
         <>
-            <Form onSubmit={submitApplication}>
+            <Form onSubmit={submitApplication} encType="multipart/form-data">
                 <Row>
                     <h1 className='text-uppercase fs-2 fw-bold'>Available Leave Days</h1>
                     <Form.Group className='col-md-4 mb-3'>

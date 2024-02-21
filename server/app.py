@@ -133,55 +133,58 @@ class LeaveApplications(Resource):
         ),200)
     
     def post(self):
+    # Get the employee ID from the session
+        employee_id = session.get("employee_id")
 
-        employee_id=session.get("employee_id")
+        # Getting the values from the form
+        leave_type = request.form.get("leave_type")
+        leave_duration = request.form.get("leave_duration")
+        start_date = datetime.strptime(request.form.get("start_date"), '%Y-%m-%d').date()
+        end_date = datetime.strptime(request.form.get("end_date"), '%Y-%m-%d').date()
+        total_days = request.form.get("total_days")
+        reason = request.form.get("reason")
 
-        #Getting the values from the front-end
-        leave_type=request.json["leave_type"]
-        leave_duration=request.json["leave_duration"]
-        start_date=datetime.strptime(request.json["start_date"], '%Y-%m-%d').date()
-        end_date=datetime.strptime(request.json["end_date"], '%Y-%m-%d').date()
-        total_days=request.json["total_days"]
-        reason=request.json["reason"]
+        file_attachment = request.files.get("file_attachment")  # Get file attachment if provided
+        print(file_attachment)
 
-        if not request.json["file_attachment"]:
-
-            #Checking if an application with the same exists
-            application=LeaveApplication.query.filter(or_(LeaveApplication.start_date==start_date, LeaveApplication.end_date==end_date)).first()
-
-            if application:
-                return make_response(jsonify({"error": "An application with the given dates already exists"}),409)
-            
-            new_application=LeaveApplication(leave_type=leave_type, leave_duration=leave_duration, start_date=start_date, end_date=end_date, total_days=total_days, reason=reason, employee_id=employee_id)
-            db.session.add(new_application)
-            db.session.commit()
-            return make_response(jsonify({"success": "Application submitted successfully!"}), 201)
-
-        else:
-            print(secure_filename(request.json["file_attachment"]))
-        # file_attachment=request.files["file_attachment"]
-
-        # if file_attachment:
-
-        #     #Getting the file name of the file attachment
-        #     file_name=secure_filename(file_attachment.filename)
-
-        #     #Generating a unigue ID for each file name (makes the filename unique)
-        #     unique_file_name=str(uuid.uuid1()) + "_" + file_name
-
-        #     #Saving the application files to the respective folder based on the leave type
-        #     file_attachment.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}/{leave_type}"), unique_file_name)
-
-        #     #Saving the unique filename to the database by assigning it to the file attachment variable
-        #     file_attachment=unique_file_name
-
-        #     new_application=LeaveApplication(leave_type=leave_type, leave_duration=leave_duration, start_date=start_date, end_date=end_date, total_days=total_days, reason=reason, file_attachment=file_attachment, employee_id=employee_id)
-        #     print(new_application)
-
+        #Querying the database to check if the leave application exists
+        leaveapplication=LeaveApplication.query.filter_by(
+            employee_id=employee_id, 
+            start_date=start_date,
+            end_date=end_date,
+            leave_type=leave_type,
+            leave_duration=leave_duration
+            ).first()
         
 
-        # new_application=LeaveApplication(leave_type=leave_type, leave_duration=leave_duration, start_date=start_date, end_date=end_date, total_days=total_days, reason=reason, employee_id=employee_id)
-        # print(new_application)
+        if leaveapplication:
+            return make_response(jsonify({"error": "An application with the given details already exists"}), 409)
+
+        if file_attachment:
+
+            #Getting the file name of the file attachment
+            file_name=secure_filename(file_attachment.filename)
+
+            #Generating a unigue ID for each file name (makes the filename unique)
+            unique_file_name=str(uuid.uuid1()) + "_" + file_name
+
+            #Saving the application files to the respective folder based on the leave type
+            
+            file_attachment.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}/{leave_type}", unique_file_name))
+
+            #Saving the unique filename to the database by assigning it to the file attachment variable
+            file_attachment=unique_file_name
+
+        new_application=LeaveApplication(leave_type=leave_type, leave_duration=leave_duration, start_date=start_date, end_date=end_date, total_days=total_days, reason=reason, file_attachment=file_attachment, employee_id=employee_id)
+        db.session.add(new_application)
+        db.session.commit()
+
+        return make_response(jsonify(
+            {
+                "success": "Application submitted successfully",
+                "application": LeaveApplicationsSchema().dump(new_application)
+            }), 200)
+
 
 api.add_resource(LeaveApplications, "/leave-applications")
 

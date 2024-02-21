@@ -18,4 +18,4 @@ class AppConfig:
     SQLALCHEMY_DATABASE_URI="sqlite:///lms.db"
 
     #Configuring the file uploads
-    UPLOAD_FOLDER='/Uploads'
+    UPLOAD_FOLDER='./Uploads'
