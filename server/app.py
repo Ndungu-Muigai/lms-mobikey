@@ -240,6 +240,11 @@ class EmployeeByID(Resource):
     def get(self, id):
         #Getting the individual employee
         employee=Employee.query.filter_by(id=id).first()
+
+        #Displaying an error message if the employee doesn't exist
+        if not employee:
+            return make_response(jsonify({"error": "Employee not found"}), 404)
+        
         #Getting the employee's leave days from the leave days table
         employee_leave_days=LeaveDays.query.filter_by(employee_id=id).first()
         #Creating a dict for the employee's details
@@ -262,19 +267,44 @@ class EmployeeByID(Resource):
         
         #Getting the value from the form
         normal_leave=request.json["normal_leave"]
-        sick_leave=request.json["sick_leave"]
 
         #If the current leave days is equal to the value being passed, return an error
-        if employee_to_update.leave_days.normal_leave == normal_leave or employee_to_update.leave_days.sick_leave == sick_leave:
+        if employee_to_update.leave_days.normal_leave == normal_leave :
             return make_response(jsonify({"error": "The current leave days count cannot be equal to the value provided"}), 409)
         
         #Updating the value of the employee's normal leave days
         employee_to_update.leave_days.normal_leave=normal_leave
-        employee_to_update.leave_days.sick_leave=sick_leave
         db.session.add(employee_to_update)
         db.session.commit()
 
         return make_response(jsonify({"success": "Leave days updated successfully!"}), 200)
+    
+    def delete(self, id):
+        #Getting the employee from the database
+        employee_to_delete=Employee.query.filter_by(id=id).first()
+        print(employee_to_delete)
+        
+        if not employee_to_delete:
+            return make_response(jsonify(
+                {
+                    "error": "Employee could not be found"
+                }
+            ),404)
+
+        #Deleting the employee's details
+        db.session.delete(employee_to_delete.leave_days)
+
+        #Looping over the leave applications and deleting them individually
+        for leave_application in employee_to_delete.leave_applications:
+            db.session.delete(leave_application)
+            
+        db.session.delete(employee_to_delete)
+        db.session.commit()
+
+        return make_response(jsonify(
+            {
+                "success": "Employee deleted successfully!"
+            }),200)
 
 api.add_resource(EmployeeByID, "/employees-data/<int:id>")
 

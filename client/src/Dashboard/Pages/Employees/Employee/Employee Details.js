@@ -25,8 +25,6 @@ const IndividualEmployee = () =>
         fetchData()
     },[])
 
-    console.log(employeeDetails)
-
     const handleInputChange= e => setEmployeeDetails({...employeeDetails,[e.target.id]:e.target.value})
 
     const editDetails= e =>
@@ -44,7 +42,6 @@ const IndividualEmployee = () =>
         .then(response => response.json())
         .then(data => 
             {
-                console.log(data)
                 data.success
                 ?
                     toast.success(data.success,
@@ -62,6 +59,35 @@ const IndividualEmployee = () =>
                             autoClose: 2000,
                             onClose: fetchData()
                         })
+            })
+    }
+
+    const deleteEmployee= () =>
+    {
+        fetch(`/employees-data/${id}`,
+        {
+            method: "DELETE"
+        })
+        .then(response => response.json())
+        .then(data => 
+            {
+                console.log(data)
+                data.success
+                ?
+                    toast.success(data.success,
+                    {
+                        position: "top-right",
+                        className: "toast-message",
+                        autoClose: 2000,
+                        onClose: navigate(-1)
+                    })
+                :
+                    toast.error(data.error,
+                    {
+                        position: "top-right",
+                        className: "toast-message",
+                        autoClose: 2000,
+                    })
             })
     }
 
@@ -107,7 +133,7 @@ const IndividualEmployee = () =>
                             </Form.Group>
                             <Form.Group className="col-md-4">
                                 <Form.Label className="fw-bold text-uppercase">Sick Leave Days</Form.Label>
-                                <Form.Control type="number" id="sick_leave" value={employeeDetails.sick_leave} step={0.5} onChange={handleInputChange}></Form.Control>
+                                <Form.Control type="number" id="sick_leave" value={employeeDetails.sick_leave} disabled></Form.Control>
                             </Form.Group>
                             {
                                 employeeDetails.gender === "Male"
@@ -128,7 +154,7 @@ const IndividualEmployee = () =>
                             }
                             <div className="col-md-12 text-center d-flex flex-row justify-content-around my-3">
                                 <Button variant="success" type="submit">Update Details</Button>
-                                <div className="btn btn-danger">Disable account</div>
+                                <div className="btn btn-danger" onClick={deleteEmployee}>Disable account</div>
                             </div>
                         </Row>
                     </Form>
