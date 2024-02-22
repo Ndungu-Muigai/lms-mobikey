@@ -5,6 +5,7 @@ if __name__ == "__main__":
     with app.app_context():
         # Employee.query.delete()
         LeaveApplication.query.delete()
+        db.session.commit()
         # LeaveDays.query.delete()
 
         # employees=[]

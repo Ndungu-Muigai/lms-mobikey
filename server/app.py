@@ -143,9 +143,7 @@ class LeaveApplications(Resource):
         end_date = datetime.strptime(request.form.get("end_date"), '%Y-%m-%d').date()
         total_days = request.form.get("total_days")
         reason = request.form.get("reason")
-
-        file_attachment = request.files.get("file_attachment")  # Get file attachment if provided
-        print(file_attachment)
+        file_attachment=request.files.get("file_attachment")
 
         #Querying the database to check if the leave application exists
         leaveapplication=LeaveApplication.query.filter_by(
@@ -175,7 +173,16 @@ class LeaveApplications(Resource):
             #Saving the unique filename to the database by assigning it to the file attachment variable
             file_attachment=unique_file_name
 
-        new_application=LeaveApplication(leave_type=leave_type, leave_duration=leave_duration, start_date=start_date, end_date=end_date, total_days=total_days, reason=reason, file_attachment=file_attachment, employee_id=employee_id)
+        employee_role=session.get("employee_role")
+        if employee_role == "HOD":
+            new_application=LeaveApplication(leave_type=leave_type, leave_duration=leave_duration, start_date=start_date, end_date=end_date, total_days=total_days, reason=reason, file_attachment=file_attachment, employee_id=employee_id, hod_status="Approved")
+
+        elif employee_role== "HR":
+            new_application=LeaveApplication(leave_type=leave_type, leave_duration=leave_duration, start_date=start_date, end_date=end_date, total_days=total_days, reason=reason, file_attachment=file_attachment, employee_id=employee_id, hod_status="Approved", hr_status="Approved")
+
+        else:
+            new_application=LeaveApplication(leave_type=leave_type, leave_duration=leave_duration, start_date=start_date, end_date=end_date, total_days=total_days, reason=reason, file_attachment=file_attachment, employee_id=employee_id)
+
         db.session.add(new_application)
         db.session.commit()
 

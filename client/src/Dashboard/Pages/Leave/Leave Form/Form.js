@@ -8,7 +8,7 @@ import Days from '../Calculations/Leave Days'
 import { useEffect, useState } from 'react'
 import {toast} from 'react-toastify'
 
-const LeaveForm = ({leaveDays, gender}) => 
+const LeaveForm = ({leaveDays, gender, updateLeaveApplications}) => 
 {
     const {minDateRange, MaxDateRange}=DateRange()
 
@@ -82,7 +82,21 @@ const LeaveForm = ({leaveDays, gender}) =>
                     {
                         position: "top-right",
                         className: "toast-message",
-                        autoClose: 2000
+                        autoClose: 2000,
+                        onClose: ()=>
+                        {
+                            updateLeaveApplications(data.application)
+                            setLeaveFormData(
+                                {
+                                    leave_type: "",
+                                    leave_duration: "",
+                                    start_date: "",
+                                    end_date: "",
+                                    total_days: null,
+                                    file_attachment: null,
+                                    reason: ""
+                                })
+                        }
                     })
             :
                 toast.error(data.error,

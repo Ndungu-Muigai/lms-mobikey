@@ -1,9 +1,9 @@
 import Accordion from 'react-bootstrap/Accordion'
 import Pagination from 'react-bootstrap/Pagination'
 import LeaveForm from '../Leave Form/Form'
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import TableData from './Table Data'
+
+import { useEffect, useState } from 'react'
 
 const Leave = () => 
 {
@@ -19,7 +19,6 @@ const Leave = () =>
 
     const currentApplications = leaveApplications.slice(firstEmployeeIndex, lastEmployeeIndex)
     const totalPages = Math.ceil(leaveApplications.length / dataPerPage)
-    const navigate = useNavigate()
 
     useEffect(()=>
     {
@@ -38,13 +37,20 @@ const Leave = () =>
             return <TableData application={application} key={application.id}/>
         })
 
+    const updateLeaveApplications= application =>
+    {
+        let updatedApplications=[...leaveApplications]
+        updatedApplications.unshift(application)
+        setLeaveApplications(updatedApplications)
+        setAccordionOpen(!isAccordionOpen)
+    }
     return ( 
         <>
             <Accordion className='mt-3'>
                 <Accordion.Item eventKey={isAccordionOpen ? "1" : "0"}>
                     <Accordion.Header>Create new leave application</Accordion.Header>
                     <Accordion.Body>
-                        <LeaveForm leaveDays={leaveDays} gender={gender}/>
+                        <LeaveForm leaveDays={leaveDays} gender={gender} updateLeaveApplications={updateLeaveApplications}/>
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
