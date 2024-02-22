@@ -71,7 +71,6 @@ const IndividualEmployee = () =>
         .then(response => response.json())
         .then(data => 
             {
-                console.log(data)
                 data.success
                 ?
                     toast.success(data.success,

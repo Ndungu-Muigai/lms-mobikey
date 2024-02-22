@@ -1,4 +1,4 @@
-from flask import Flask, make_response, request, jsonify, session
+from flask import Flask, make_response, request, jsonify, session, url_for, send_from_directory
 from config import AppConfig
 from flask_migrate import Migrate
 from models import db, Employee, LeaveDays, LeaveApplication
@@ -48,6 +48,7 @@ class Login(Resource):
         session["employee_id"]=employee.id
         session["employee_role"]=employee.role
         session["employee_department"]=employee.department
+        session["employee_section"]=employee.section
         return make_response(jsonify({"success": "Login successful!"}))
 
 api.add_resource(Login, "/login")
@@ -194,6 +195,62 @@ class LeaveApplications(Resource):
 
 
 api.add_resource(LeaveApplications, "/leave-applications")
+
+class PendingEmployeeRequests(Resource):
+    def get(self):
+        employee_id=session.get("employee_id")
+        role=session.get("employee_role")
+        department=session.get("employee_department")
+        section=session.get("employee_section")
+
+        if role == "HOD":
+            pending_requests = LeaveApplication.query.join(Employee).filter(
+                LeaveApplication.hod_status == "Pending",
+                LeaveApplication.employee_id != employee_id,
+                Employee.department == department,
+                Employee.section == section
+            ).all()
+
+        elif role == "GM":
+            pending_requests = LeaveApplication.query.join(Employee).filter(
+                LeaveApplication.hod_status == "Approved",
+                LeaveApplication.employee_id != employee_id,
+                Employee.section == section
+            ).all()
+
+
+        elif role == "HR":
+            pending_requests = LeaveApplication.query.filter(
+                LeaveApplication.hod_status == "Approved",
+                LeaveApplication.gm_status == "Approved",
+                LeaveApplication.employee_id != employee_id,
+            ).all()
+
+        return make_response(LeaveApplicationsSchema().dump(pending_requests, many=True), 200)
+    
+api.add_resource(PendingEmployeeRequests, "/pending-employee-requests")
+
+class PendingEmployeeRequestsByID(Resource):
+    def get(self, id):
+        request=LeaveApplication.query.filter_by(id=id).first()
+        response=LeaveApplicationsSchema().dump(request)
+        
+        if request and request.file_attachment:
+            file_path = f"Uploads/{request.leave_type}/{request.file_attachment}"  # Adjust path as needed
+            file_url = url_for('static', filename=file_path)
+            response["file_attachment"] = file_url
+
+
+        return make_response(response, 200)
+
+api.add_resource(PendingEmployeeRequestsByID, "/pending-employee-requests/<int:id>")
+
+class GetFile(Resource):
+    def get(self, filename):
+        print("Fetching file")
+        # return send_from_directory('static', filename)
+
+api.add_resource(GetFile, "/static/<path:filename>")
 
 class Employees(Resource):
     def get(self):

@@ -8,11 +8,12 @@ import Sidebar from '../Dashboard Components/Sidebar/Sidebar'
 import Dashboard from './Pages/Dashboard'
 import Employees from '../Pages/Employees/Home'
 import IndividualEmployee from '../Pages/Employees/Employee/Employee Details'
-import ErrorPage from '../../Error Page/404 Page'
 import Leave from '../Pages/Leave/Home/Home Page'
+import PendingRequests from '../Pages/Employee Requests/Pending/Pending Requests'
+import RequestDetails from '../Pages/Employee Requests/Pending/Request Details'
+import ErrorPage from '../../Error Page/404 Page'
 
 import './CSS/Layout.css'
-
 
 const DashboardLayout = () => 
 {
@@ -68,6 +69,8 @@ const DashboardLayout = () =>
                             <Route exact path='/' element={<Dashboard full_name={full_name} leaveDays={leaveDays}/>}></Route>
                             <Route exact path='/employees' element={<Employees/>}></Route>
                             <Route exact path='/employees/:id' element={<IndividualEmployee/>}></Route>
+                            <Route exact path='/pending-employee-requests' element={<PendingRequests/>}></Route>
+                            <Route exact path='/pending-employee-requests/:id' element={<RequestDetails/>}></Route>
                             <Route exact path='/leave' element={<Leave/>}></Route>
                             <Route path='*' element={<ErrorPage/>}></Route>
                         </Routes>
