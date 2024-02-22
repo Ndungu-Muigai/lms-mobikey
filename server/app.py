@@ -14,7 +14,7 @@ from sqlalchemy import or_
 
 app=Flask(__name__)
 app.config.from_object(AppConfig)
-
+app.static_folder = 'static' 
 #Initializing the migration
 migrate=Migrate(app, db)
 db.init_app(app)
@@ -237,9 +237,7 @@ class PendingEmployeeRequestsByID(Resource):
         
         if request and request.file_attachment:
             file_path = f"Uploads/{request.leave_type}/{request.file_attachment}"  # Adjust path as needed
-            file_url = url_for('static', filename=file_path)
-            response["file_attachment"] = file_url
-
+            response["file_attachment"] = file_path
 
         return make_response(response, 200)
 
@@ -248,7 +246,7 @@ api.add_resource(PendingEmployeeRequestsByID, "/pending-employee-requests/<int:i
 class GetFile(Resource):
     def get(self, filename):
         print("Fetching file")
-        # return send_from_directory('static', filename)
+        return send_from_directory('static', filename)
 
 api.add_resource(GetFile, "/static/<path:filename>")
 

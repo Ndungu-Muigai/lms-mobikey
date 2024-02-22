@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -7,6 +8,7 @@ import Row from 'react-bootstrap/Row'
 
 const RequestDetails = () => 
 {
+    const [file, setFile]=useState(null)
     const [applicationDetails, setApplicationDetails]=useState(null)
     const {id}=useParams()
     const navigate=useNavigate()
@@ -19,12 +21,22 @@ const RequestDetails = () =>
         .then(data =>setApplicationDetails(data))
     },[id])
     
+    useEffect(() => 
+    {
+        if (applicationDetails && applicationDetails.file_attachment) 
+        {
+            fetch(`/static/${applicationDetails.file_attachment}`)
+            .then(response => response.blob())
+            .then(data => setFile(data))
+        }
+    }, [applicationDetails]);
+
     if (!applicationDetails) 
     {
         return <div>Fetching data...</div>;
     }
 
-    const { employee, leave_type, leave_duration, file_attachment, start_date, end_date, total_days, reason, hod_status, hr_status, gm_status } = applicationDetails;
+    const { employee, leave_type, leave_duration, start_date, end_date, total_days, reason, hod_status, hr_status, gm_status } = applicationDetails;
     const first_name = employee ? employee.first_name : '';
     const last_name = employee ? employee.last_name : '';
 
@@ -67,9 +79,9 @@ const RequestDetails = () =>
                     <Form.Group className="col-md-6 mb-2">
                         <Form.Label>File Attachment</Form.Label>
                         {
-                        file_attachment 
+                        file 
                         ? 
-                            <Form.Control as="a" href={file_attachment} target="_blank" rel="noopener noreferrer">View file attachment</Form.Control>
+                            <Form.Control as="a" href={URL.createObjectURL(file)}  target="_blank" rel="noopener noreferrer">View file attachment</Form.Control>
                         : 
                             <Form.Control value="No file attachment" disabled></Form.Control>
                         }
