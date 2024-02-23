@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import {toast} from 'react-toastify'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
@@ -39,6 +40,40 @@ const RequestDetails = () =>
     const { employee, leave_type, leave_duration, start_date, end_date, total_days, reason, hod_status, hr_status, gm_status } = applicationDetails;
     const first_name = employee ? employee.first_name : '';
     const last_name = employee ? employee.last_name : '';
+
+    const handleSubmit=( status) =>
+    {
+        fetch(`/pending-employee-requests/${id}`,
+        {
+            method: "PATCH",
+            headers:
+            {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({"status": status})
+        })
+        .then(response => response.json())
+        .then(data =>
+            {
+                console.log(data)
+                data.success
+                ?
+                    toast.success(data.success,
+                        {
+                            position: "top-right",
+                            className: "toast-message",
+                            autoClose: 2000,
+                            onClose: navigate(-1)
+                        })
+                :
+                    toast.error(data.error,
+                        {
+                            position: "top-right",
+                            className: "toast-message",
+                            autoClose: 2000,
+                        })
+            })
+    }
 
     return ( 
         <>
@@ -104,8 +139,8 @@ const RequestDetails = () =>
                         <Form.Control value={hr_status || ''} disabled></Form.Control>
                     </Form.Group>
                     <div className="col-md-12 text-center d-flex flex-row justify-content-around my-3">
-                        <Button variant="success">Approve request</Button>
-                        <Button className="btn btn-danger">Reject request</Button>
+                        <Button variant="success" onClick={()=> handleSubmit("Approved")}>Approve request</Button>
+                        <Button className="btn btn-danger" onClick={()=> handleSubmit("Rejected")}>Reject request</Button>
                     </div>
                 </Row>
             </Form>

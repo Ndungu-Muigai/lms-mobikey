@@ -1,7 +1,22 @@
 import Table from 'react-bootstrap/Table'
 
-const UpcomingLeave = ({upcomingLeave}) => 
+const UpcomingLeave = ({upcomingLeaves}) => 
 {
+    console.log(upcomingLeaves)
+
+    const upcomingLeavesMap=upcomingLeaves.map(leave =>
+        {
+            console.log(leave)
+            let {id, employee: {first_name, last_name}, start_date, end_date, total_days}=leave
+            return (
+                <tr key={id}>
+                    <td data-label="Employee Name">{first_name} {last_name}</td>
+                    <td data-label="Start Date">{start_date}</td>
+                    <td data-label="End Date">{end_date}</td>
+                    <td data-label="Number of days">{total_days}</td>
+                </tr>
+            )
+        })
     return ( 
         <div className="border-start upcoming">
             <h1 className='text-uppercase fs-3 fw-bolder'>Upcoming department leave</h1>
@@ -15,14 +30,15 @@ const UpcomingLeave = ({upcomingLeave}) =>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        {
-                            upcomingLeave ?
-                                <td colSpan={4}>Data exists</td>
-                            : 
+                    {
+                        upcomingLeaves.length > 0
+                        ?
+                            upcomingLeavesMap
+                        :
+                            <tr>
                                 <td colSpan={4}>No upcoming department leave</td>
-                        }   
-                    </tr>
+                            </tr>
+                    }
                 </tbody>
             </Table>
         </div>

@@ -1,9 +1,19 @@
 import { useEffect, useState } from "react";
+
 import TableBody from "./Table Body";
+import Pagination from 'react-bootstrap/Pagination';
 
 const PendingRequests = () => 
 {
     const [pendingRequests, setPendingRequests]=useState([])
+    const [currentPage, setCurrentPage] = useState(1);
+    const dataPerPage = 10;
+
+    const lastRequestIndex = currentPage * dataPerPage;
+    const firstRequestIndex = lastRequestIndex - dataPerPage;
+
+    const currentRequests = pendingRequests.slice(firstRequestIndex, lastRequestIndex);
+    const totalPages = Math.ceil(pendingRequests.length / dataPerPage);
 
     useEffect(()=>
     {
@@ -12,10 +22,11 @@ const PendingRequests = () =>
         .then(data => setPendingRequests(data))
     },[])
 
-    const requestsMap=pendingRequests.map(request => 
+    const requestsMap=currentRequests.map(request => 
         {
             return (<TableBody key={request.id} request={request}/>)
         })
+
     return ( 
         <>
             <h1 className="text-uppercase text-center fw-bolder">Pending Employee Requests</h1>
@@ -41,6 +52,19 @@ const PendingRequests = () =>
                     }
                 </tbody>
             </table>
+            <div className="d-flex justify-content-center">
+                <Pagination>
+                    <Pagination.First onClick={() => setCurrentPage(1)} title='First Page'/>
+                    <Pagination.Prev onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} title='Previous'/>
+                    {Array.from({ length: totalPages }, (_, i) => (
+                        <Pagination.Item key={i + 1} active={i + 1 === currentPage} onClick={() => setCurrentPage(i + 1)} className={i + 1 === currentPage ? 'active-page' : ''}>
+                            {i + 1}
+                        </Pagination.Item>
+                    ))}
+                    <Pagination.Next onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages} title='Next'/>
+                    <Pagination.Last onClick={() => setCurrentPage(totalPages)} title='Last Page'/>
+                </Pagination>
+            </div>
         </>
      );
 }

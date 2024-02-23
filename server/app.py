@@ -6,7 +6,7 @@ from flask_restful import Api, Resource
 from schema import EmployeeSchema, LeaveDaysSchema, LeaveApplicationsSchema
 from password import random_password
 import hashlib
-from datetime import datetime
+from datetime import datetime, date
 from werkzeug.utils import secure_filename
 import uuid as uuid
 import os
@@ -83,6 +83,13 @@ class Dashboard(Resource):
 
             employee=Employee.query.filter_by(id=employee_id).first()
 
+            #Getting today's date to only filter applications who's start date is greater than or equal to today
+            today_date=date.today()
+
+            #Getting upcoming department leaves
+            upcoming = LeaveApplication.query.join(Employee).filter(Employee.department == employee.department, LeaveApplication.start_date >= today_date, LeaveApplication.hod_status=="Approved", LeaveApplication.gm_status=="Approved", LeaveApplication.hr_status=="Approved").all()
+            upcoming_schema=LeaveApplicationsSchema(only=("id" ,"employee","start_date", "end_date","total_days")).dump(upcoming, many=True)
+
             return make_response(jsonify(
                 {
                     "success": "Logged in successfully",
@@ -94,7 +101,8 @@ class Dashboard(Resource):
                         "approved_requests": approved_requests,
                         "rejected_requests":  rejected_requests,
                         "pending_requests": pending_requests
-                    }
+                    },
+                    "upcoming_leave": upcoming_schema
                 }
             ))
 
@@ -214,15 +222,16 @@ class PendingEmployeeRequests(Resource):
         elif role == "GM":
             pending_requests = LeaveApplication.query.join(Employee).filter(
                 LeaveApplication.hod_status == "Approved",
+                LeaveApplication.gm_status == "Pending",
                 LeaveApplication.employee_id != employee_id,
-                Employee.section == section
+                # Employee.section == section
             ).all()
-
 
         elif role == "HR":
             pending_requests = LeaveApplication.query.filter(
                 LeaveApplication.hod_status == "Approved",
                 LeaveApplication.gm_status == "Approved",
+                LeaveApplication.hr_status == "Pending",
                 LeaveApplication.employee_id != employee_id,
             ).all()
 
@@ -236,10 +245,36 @@ class PendingEmployeeRequestsByID(Resource):
         response=LeaveApplicationsSchema().dump(request)
         
         if request and request.file_attachment:
-            file_path = f"Uploads/{request.leave_type}/{request.file_attachment}"  # Adjust path as needed
+            file_path = f"Uploads/{request.leave_type}/{request.file_attachment}"  
             response["file_attachment"] = file_path
 
         return make_response(response, 200)
+    
+    def patch(self, id):
+        status=request.json["status"]
+        role=session.get("employee_role")
+        
+        #Getting the request from the database
+        application=LeaveApplication.query.filter_by(id=id).first()
+
+        #Updating the status based on the logged in user's role
+        if role == "HOD":
+            application.hod_status=status
+        
+        elif role == "GM":
+            application.gm_status=status
+        
+        elif role == "HR":
+            application.hr_status=status
+
+        db.session.add(application)
+        db.session.commit()
+
+        if status == "Approved":
+            return make_response(jsonify({"success": "Leave application approved successfully"}),200)
+
+        elif status == "Rejected":
+            return make_response(jsonify({"success": "Leave application rejected successfully"}),200)
 
 api.add_resource(PendingEmployeeRequestsByID, "/pending-employee-requests/<int:id>")
 

@@ -4,7 +4,7 @@ import UpcomingLeave from "./Upcoming Leave";
 
 import '../CSS/Dashboard.css'
 
-const Dashboard = ({full_name, leaveDays}) => 
+const Dashboard = ({full_name, leaveDays, upcomingLeaves}) => 
 {
     return ( 
         <>
@@ -12,7 +12,7 @@ const Dashboard = ({full_name, leaveDays}) =>
             <Tiles leaveDays={leaveDays}/>
             <div className="dashboard">
                 <PieChart leaveDays={leaveDays}/>
-                <UpcomingLeave/>
+                <UpcomingLeave upcomingLeaves={upcomingLeaves}/>
             </div>
         </>
      );

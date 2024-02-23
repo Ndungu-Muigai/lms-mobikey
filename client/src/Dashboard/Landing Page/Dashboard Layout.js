@@ -23,6 +23,7 @@ const DashboardLayout = () =>
     const [full_name, setFullName]=useState("")
     const [leaveDays, setLeaveDays]=useState()
     const [role, setRole]=useState("")
+    const [upcomingLeaves, setUpcomingLeaves]=useState([])
     const [sidebarOpen, setSidebarOpen]=useState(false)
 
     useEffect(()=>
@@ -33,6 +34,7 @@ const DashboardLayout = () =>
         {
             if(data.success)
             {
+                setUpcomingLeaves(data.upcoming_leave)
                 setRole(data.role)
                 setFullName(data.full_name);
                 setLeaveDays(data.leave_days)
@@ -66,7 +68,7 @@ const DashboardLayout = () =>
                         <Sidebar role={role} sidebarOpen={sidebarOpen}/>
                         <main className='main-container' onClick={()=> sidebarOpen && setSidebarOpen(false)}>
                             <Routes>
-                            <Route exact path='/' element={<Dashboard full_name={full_name} leaveDays={leaveDays}/>}></Route>
+                            <Route exact path='/' element={<Dashboard full_name={full_name} leaveDays={leaveDays} upcomingLeaves={upcomingLeaves}/>}></Route>
                             <Route exact path='/employees' element={<Employees/>}></Route>
                             <Route exact path='/employees/:id' element={<IndividualEmployee/>}></Route>
                             <Route exact path='/pending-employee-requests' element={<PendingRequests/>}></Route>
