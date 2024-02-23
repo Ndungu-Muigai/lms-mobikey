@@ -20,8 +20,10 @@ const Leave = () =>
     const currentApplications = leaveApplications.slice(firstEmployeeIndex, lastEmployeeIndex)
     const totalPages = Math.ceil(leaveApplications.length / dataPerPage)
 
-    useEffect(()=>
+    const fetchData=() =>
     {
+    //     useEffect(()=>
+    // {
         fetch("/leave-applications")
         .then(response => response.json())
         .then(data => 
@@ -30,6 +32,12 @@ const Leave = () =>
                 setLeaveDays(data.leave_days)
                 setGender(data.gender)
             })
+    // },[])
+    }
+    
+    useEffect(()=>
+    {
+        fetchData()    
     },[])
 
     const leaveApplicationsMap=currentApplications.map(application =>
@@ -43,6 +51,7 @@ const Leave = () =>
         updatedApplications.unshift(application)
         setLeaveApplications(updatedApplications)
         setAccordionOpen(!isAccordionOpen)
+        fetchData()
     }
     return ( 
         <>

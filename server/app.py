@@ -142,7 +142,8 @@ class LeaveApplications(Resource):
         ),200)
     
     def post(self):
-    # Get the employee ID from the session
+
+        # Get the employee ID from the session
         employee_id = session.get("employee_id")
 
         # Getting the values from the form
@@ -163,9 +164,45 @@ class LeaveApplications(Resource):
             leave_duration=leave_duration
             ).first()
         
-
+        #If application exists, return an error
         if leaveapplication:
             return make_response(jsonify({"error": "An application with the given details already exists"}), 409)
+        
+        #Checking if the leave days being requested are greater than the number of leave days the employee has
+        leave_days=LeaveDays.query.filter_by(employee_id=employee_id).first()
+
+        if leave_type == "Normal":
+            days_balance= float(leave_days.normal_leave) - float(total_days)
+
+            #If leave balance is less than or equal to 0, return error. Else, update the leave days table
+            if days_balance <= 0:
+                return make_response(jsonify({"error": "You do not have enough leave days"}), 409)
+
+            leave_days.normal_leave=days_balance
+
+        elif leave_type == "Sick":
+            days_balance= float(leave_days.sick_leave) - float(total_days)
+
+            if days_balance <= 0:
+                return make_response(jsonify({"error": "You do not have enough leave days"}), 409)
+            
+            leave_days.sick_leave=days_balance
+
+        elif leave_type == "Paternity":
+            days_balance= float(leave_days.paternity_leave) - float(total_days)
+
+            if days_balance <= 0:
+                return make_response(jsonify({"error": "You do not have enough leave days"}), 409)
+            
+            leave_days.paternity_leave=days_balance
+
+        elif leave_type == "Maternity":
+            days_balance= float(leave_days.maternity_leave) - float(total_days)
+
+            if days_balance <= 0:
+                return make_response(jsonify({"error": "You do not have enough leave days"}), 409)
+            
+            leave_days.maternity_leave=days_balance
 
         if file_attachment:
 
@@ -182,6 +219,9 @@ class LeaveApplications(Resource):
             #Saving the unique filename to the database by assigning it to the file attachment variable
             file_attachment=unique_file_name
 
+        
+
+        #Checking if the employee is either a HOD, HR or GM and updating those fields accordingly
         employee_role=session.get("employee_role")
         if employee_role == "HOD":
             new_application=LeaveApplication(leave_type=leave_type, leave_duration=leave_duration, start_date=start_date, end_date=end_date, total_days=total_days, reason=reason, file_attachment=file_attachment, employee_id=employee_id, hod_status="Approved")
@@ -192,7 +232,7 @@ class LeaveApplications(Resource):
         else:
             new_application=LeaveApplication(leave_type=leave_type, leave_duration=leave_duration, start_date=start_date, end_date=end_date, total_days=total_days, reason=reason, file_attachment=file_attachment, employee_id=employee_id)
 
-        db.session.add(new_application)
+        db.session.add_all([new_application, leave_days])
         db.session.commit()
 
         return make_response(jsonify(
@@ -283,6 +323,23 @@ class PendingEmployeeRequestsByID(Resource):
             return make_response(jsonify({"success": "Leave application approved successfully"}),200)
 
         elif status == "Rejected":
+            employee_id=application.employee_id
+            leave_days=LeaveDays.query.filter_by(employee_id=employee_id).first()
+
+            if application.leave_type == "Normal":
+                leave_days.normal_leave= float(leave_days.normal_leave) + float(application.total_days)
+
+            elif application.leave_type == "Sick":
+                leave_days.sick_leave= float(leave_days.sick_leave) + float(application.total_days)
+
+            elif application.leave_type == "Paternity":
+                leave_days.paternity_leave= float(leave_days.paternity_leave) + float(application.total_days)
+            
+            elif application.leave_type == "Maternity":
+                leave_days.maternity_leave= float(leave_days.maternity_leave) + float(application.total_days)
+
+            db.session.add(leave_days)
+            db.session.commit()
             return make_response(jsonify({"success": "Leave application rejected successfully"}),200)
 
 api.add_resource(PendingEmployeeRequestsByID, "/pending-employee-requests/<int:id>")
