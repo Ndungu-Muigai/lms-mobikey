@@ -259,9 +259,18 @@ class PendingEmployeeRequestsByID(Resource):
 
         #Updating the status based on the logged in user's role
         if role == "HOD":
+            if status == "Rejected":
+                application.hod_status=status
+                application.hr_status=status
+                application.gm_status=status
+
             application.hod_status=status
         
         elif role == "GM":
+            if status == "Rejected":
+                application.hr_status=status
+                application.gm_status=status
+            
             application.gm_status=status
         
         elif role == "HR":
