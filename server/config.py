@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import os
 import redis
+from datetime import timedelta
 
 load_dotenv()
 
@@ -11,6 +12,7 @@ class AppConfig:
     SESSION_PERMANENT=True
     SESSION_USER_SIGNER=False
     SESSION_REDIS=redis.from_url("redis://127.0.0.1:6379")
+    PERMANENT_SESSION_LIFETIME=timedelta(minutes=30)
 
     #Configuring the database
     SQLALCHEMY_TRACK_MODIFICATION=False
