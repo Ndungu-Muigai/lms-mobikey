@@ -14,6 +14,7 @@ import RequestDetails from '../Pages/Employee Requests/Pending/Request Details'
 import ErrorPage from '../../Error Page/404 Page'
 
 import './CSS/Layout.css'
+import Profile from '../Pages/Profile/Profile'
 
 const DashboardLayout = () => 
 {
@@ -73,6 +74,7 @@ const DashboardLayout = () =>
                             <Route exact path='/employees/:id' element={<IndividualEmployee/>}></Route>
                             <Route exact path='/pending-employee-requests' element={<PendingRequests/>}></Route>
                             <Route exact path='/pending-employee-requests/:id' element={<RequestDetails/>}></Route>
+                            <Route exact path='/profile' element={<Profile/>}></Route>
                             <Route exact path='/leave' element={<Leave/>}></Route>
                             <Route path='*' element={<ErrorPage/>}></Route>
                         </Routes>
