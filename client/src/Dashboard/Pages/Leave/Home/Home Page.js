@@ -53,6 +53,7 @@ const Leave = () =>
         setAccordionOpen(!isAccordionOpen)
         fetchData()
     }
+
     return ( 
         <>
             <Accordion className='mt-3'>

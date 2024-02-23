@@ -2,7 +2,6 @@ import Table from 'react-bootstrap/Table'
 
 const UpcomingLeave = ({upcomingLeaves}) => 
 {
-    console.log(upcomingLeaves)
 
     const upcomingLeavesMap=upcomingLeaves.map(leave =>
         {

@@ -31,3 +31,4 @@ class LeaveApplicationsSchema(Schema):
     hod_status=fields.Str(required=True)
     hr_status=fields.Str(required=True)
     gm_status=fields.Str(required=True)
+    status=fields.Str(required=False)

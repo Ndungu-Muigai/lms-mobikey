@@ -26,7 +26,7 @@
             {
                 "title":"All Requests",
                 "icon":"fa fa-list-alt",
-                "roles": ["HOD","GM","HR"],
+                "roles": ["HR"],
                 "path":"/dashboard/all-employee-requests"
             }
         ]

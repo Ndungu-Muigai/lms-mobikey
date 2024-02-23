@@ -15,6 +15,8 @@ import ErrorPage from '../../Error Page/404 Page'
 
 import './CSS/Layout.css'
 import Profile from '../Pages/Profile/Profile'
+import LeaveRequest from '../Pages/Leave/Individual Request/Leave Request'
+import AllEmployeeRequests from '../Pages/Employee Requests/All/All Requests'
 
 const DashboardLayout = () => 
 {
@@ -70,12 +72,14 @@ const DashboardLayout = () =>
                         <main className='main-container' onClick={()=> sidebarOpen && setSidebarOpen(false)}>
                             <Routes>
                             <Route exact path='/' element={<Dashboard full_name={full_name} leaveDays={leaveDays} upcomingLeaves={upcomingLeaves}/>}></Route>
+                            <Route exact path='/leave' element={<Leave/>}></Route>
+                            <Route exact path='/leave/:id' element={<LeaveRequest/>}></Route>
                             <Route exact path='/employees' element={<Employees/>}></Route>
                             <Route exact path='/employees/:id' element={<IndividualEmployee/>}></Route>
                             <Route exact path='/pending-employee-requests' element={<PendingRequests/>}></Route>
                             <Route exact path='/pending-employee-requests/:id' element={<RequestDetails/>}></Route>
+                            <Route exact path='/all-employee-requests' element={<AllEmployeeRequests/>}></Route>
                             <Route exact path='/profile' element={<Profile/>}></Route>
-                            <Route exact path='/leave' element={<Leave/>}></Route>
                             <Route path='*' element={<ErrorPage/>}></Route>
                         </Routes>
                         </main>
