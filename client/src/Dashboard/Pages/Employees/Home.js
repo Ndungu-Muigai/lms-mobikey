@@ -43,6 +43,10 @@ const Employees = () =>
                 })
     }, [navigate]);
 
+    if(!employeeData)
+    {
+        return <div>Fetching employee data...</div>
+    }
     const employeeDataMap = currentEmployees.map(employee => (
         <TableData key={employee.id} employee={employee} />
     ));
@@ -81,7 +85,7 @@ const Employees = () =>
                 <tbody>
                     {employeeData.length === 0 ? (
                         <tr>
-                            <td colSpan={6} className='fs-5 p-2'>Fetching employee data...</td>
+                            <td colSpan={6} className='fs-5 p-2'>No data could be fetched</td>
                         </tr>
                     ) : (
                         employeeDataMap
