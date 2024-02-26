@@ -10,7 +10,7 @@ from datetime import datetime, date
 from werkzeug.utils import secure_filename
 import uuid as uuid
 import os
-from sqlalchemy import or_
+from mail import send_login_credentials
 
 app=Flask(__name__)
 app.config.from_object(AppConfig)
@@ -459,7 +459,9 @@ class Employees(Resource):
         #Creating the account details
         hashed_password=hashlib.md5(password.encode("utf-8")).hexdigest()
         new_employee=Employee(first_name=first_name, username=username, password=hashed_password, last_name=last_name, gender=gender, department=department, section=section, role=role, position=position, email=email)
-        print(password)
+
+        #Sending the email with the login credentials
+        send_login_credentials(last_name=last_name, username=username, first_name=first_name, email=email, password=password)
 
         #Creating an employee's leave days once their account is created
         if new_employee.gender=="Male":
@@ -469,7 +471,6 @@ class Employees(Resource):
             leave_days=LeaveDays(employee=new_employee,normal_leave=21, sick_leave=14, paternity_leave=0, maternity_leave=90)
 
         #Committing the info to the database
-        
         db.session.add_all([new_employee, leave_days])
         db.session.commit()
 
