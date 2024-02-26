@@ -414,6 +414,8 @@ api.add_resource(GetFile, "/static/<path:filename>")
 #All employees resource
 class Employees(Resource):
     def get(self):
+        #Getting the employee id
+        employee_id=session.get("employee_id")
 
         #Getting the role of the currently logged in user
         employee_role=session.get("employee_role")
@@ -423,7 +425,7 @@ class Employees(Resource):
             return make_response(jsonify({"error": "You do not have the rights to do that"}), 405)
         
         #Getting all employees from the database and creating a dict 
-        employees=Employee.query.all()
+        employees=Employee.query.filter(Employee.id != employee_id).all()
         employee_dict=EmployeeSchema().dump(employees, many=True)
         return make_response(jsonify(
             {
