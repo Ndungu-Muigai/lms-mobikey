@@ -22,9 +22,6 @@ class AppConfig:
     #Configuring the file uploads
     UPLOAD_FOLDER='./static/Uploads'
 
-    #Email API configuration
-    SENDINBLUE_API_KEY = "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"
-
     #Email sender congiguration
     SENDER_NAME = "Leave Management System"
     SENDER_EMAIL = "lms@mobikey.co.ke"

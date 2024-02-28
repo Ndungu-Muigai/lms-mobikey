@@ -1,8 +1,12 @@
 import sib_api_v3_sdk
 from config import AppConfig
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 configuration=sib_api_v3_sdk.Configuration()
-configuration.api_key["api-key"]=AppConfig.SENDINBLUE_API_KEY
+configuration.api_key["api-key"] = os.environ["SENDINBLUE_API_KEY"]
 api_instance=sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
 
 def send_login_credentials(first_name, last_name, email, username, password):
@@ -15,7 +19,7 @@ def send_login_credentials(first_name, last_name, email, username, password):
     <h4>Username: {username}</h4>
     <h4>Password: {password}</h4>
     <h4>Login Link: <a href='https://mobikey-lms.vercel.app/' target='_blank'>Leave Management System</a></h4>
-    <b>Kindly do not share your login details</b>
+    <b>Kindly do not share your login details</b><br><br>
 
     <b>NB:This is an system generated email. Please DO NOT reply to this email thread.</b>
     """
