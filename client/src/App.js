@@ -12,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './assets/css/toast.css'
 import ErrorPage from './Error Page/404 Page';
+import UpdatePassword from './Landing Page/Update Password/Update';
 
 function App() 
 {
@@ -22,6 +23,7 @@ function App()
      <Routes>
         <Route exact path='/' element={<Home/>}></Route>
         <Route exact path='/login' element={<Login />}></Route>
+        <Route exact path='/update' element={<UpdatePassword/>}></Route>
         <Route exact path='/reset' element={<Reset/>}></Route>
         <Route exact path='/dashboard/*' element={<DashboardLayout />}></Route>
         <Route path='*' element={<ErrorPage/>}></Route>

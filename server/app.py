@@ -47,9 +47,54 @@ class Login(Resource):
         session["employee_section"]=employee.section
 
         #Returning a success message once a user is successfully authenticated
-        return make_response(jsonify({"success": "Login successful!"}))
+        return make_response(jsonify(
+            {
+                "success": "Login successful!",
+                "first_login": employee.first_login
+            }))
 
 api.add_resource(Login, "/login")
+
+#Resource to update password
+class UpdatePassword(Resource):
+    def post(self):
+
+        #Getting the ID of the employee
+        employee_id=session.get("employee_id")
+
+        #Getting the form data
+        password=request.json["new_password"]
+        confirm_password=request.json["confirm_password"]
+
+        #Checking if both passwords match
+        if password != confirm_password:
+            return make_response(jsonify({"error": "Passwords do not match"}), 409)
+
+        #Getting the employee details
+        employee=Employee.query.filter(Employee.id == employee_id).first()
+
+        #Hashing the password
+        hashed_password=hashlib.md5(password.encode("utf-8")).hexdigest()
+
+        #Checking if the new password is equal to the password in the databse
+        if employee.password == hashed_password:
+            return make_response(jsonify({"error": "New password cannot be the same as the current password"}), 409)
+
+        #Updating the employee's password
+        employee.password=hashed_password
+
+        #Checking the employee's first_login status and updating it to false if it is true
+        if employee.first_login:
+            employee.first_login=False
+
+        #AAdding and committing the changes to the database
+        db.session.add(employee)
+        db.session.commit()
+
+        #Returning a success response
+        return make_response(jsonify({"success": "Password updated successfully! Redirecting to the dashboard."}),201)
+
+api.add_resource(UpdatePassword, "/update-password")
 
 #Dashboard resource
 class Dashboard(Resource):

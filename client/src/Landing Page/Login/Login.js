@@ -36,21 +36,32 @@ const Login = () =>
         .then(response => response.json())
         .then(message => 
             {
-                message.success ? 
-                toast.success(message.success,
-                {
-                    position: "top-right",
-                    className: "toast-message",
-                    autoClose: 2000,
-                    onClose: ()=> navigate("/dashboard")
-                })
+                message.success
+                ?
+                    message.first_login
+                    ?
+                        toast.success("Login successful. Redirecting to password reset page...",
+                        {
+                            position: "top-right",
+                            className: "toast-message",
+                            autoClose: 2000,
+                            onClose: ()=> navigate("/update")
+                        })
+                    :
+                        toast.success(message.success,
+                        {
+                            position: "top-right",
+                            className: "toast-message",
+                            autoClose: 2000,
+                            onClose: ()=> navigate("/dashboard")
+                        })
                 :
-                toast.error(message.error,
+                    toast.error(message.error,
                     {
                         position: "top-right",
                         className: "toast-message"
                     })
-                }
+            }
             )
     }
     return ( 
