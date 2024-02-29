@@ -1,2 +1,5 @@
-#Ignore .env file
+# Ignore .env file
 .env
+
+# Ignore db files inside the instance folder
+instance/*.db
