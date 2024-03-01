@@ -1,5 +1,5 @@
 from app import app
-from models import Employee, LeaveApplication, LeaveDays, db
+from models import Employee, LeaveApplication, LeaveDays, db, OneTimePassword
 
 if __name__ == "__main__":
     with app.app_context():
@@ -7,6 +7,7 @@ if __name__ == "__main__":
         # Employee.query.delete()
         # LeaveApplication.query.delete()
         # LeaveDays.query.delete()
+        # OneTimePassword.query.delete()
         # db.session.commit()
 
         # new_employee=Employee(first_name="Samuel",last_name="Muigai", gender="Male", email="muigaisam65@gmail.com", username="smuigai", section="Mobikey", department="Logistics", position="Logistics Assistant", role="HR", password="214aaf2c9a8510d948555ee25cb38397")
