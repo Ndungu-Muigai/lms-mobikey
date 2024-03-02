@@ -1,18 +1,18 @@
-from flask import Flask, make_response, request, jsonify, session, url_for, send_from_directory
+from flask import Flask, make_response, request, jsonify, session, send_from_directory
 from config import AppConfig
 from flask_migrate import Migrate
 from models import db, Employee, LeaveDays, LeaveApplication, OneTimePassword   
 from flask_restful import Api, Resource
 from schema import EmployeeSchema, LeaveDaysSchema, LeaveApplicationsSchema
-from password import random_password
 import hashlib
 from datetime import datetime, date, timedelta
 from werkzeug.utils import secure_filename
 import uuid as uuid
 import os
-from credentials import send_login_credentials
-from otp import get_otp
-from reset import send_otp
+from Mail.credentials import send_login_credentials
+from Mail.reset import send_otp
+from Generations.password import random_password
+from Generations.otp import get_otp
 
 app=Flask(__name__)
 app.config.from_object(AppConfig)
@@ -711,6 +711,39 @@ class Profile(Resource):
         employee=Employee.query.filter(Employee.id==employee_id).first()
         employee_details=EmployeeSchema().dump(employee)
         return make_response(employee_details, 200)
+    
+    #Password update functionality in the profile page
+    def post(self):
+
+        #Getting the attributes from the form
+        current_password=request.json["current_password"]
+        new_password=request.json["new_password"]
+        confirm_password=request.json["confirm_password"]
+
+        #Getting the current logged in employee
+        employee=Employee.query.filter(Employee.id==session.get("employee_id")).first()
+
+        #Hashing the password 
+        hashed_password=hashlib.md5(new_password.encode()).hexdigest()
+
+        #Checking if the value of current password is not equal to the password in the database
+        if employee.password != hashlib.md5(current_password.encode()).hexdigest():
+            return make_response(jsonify({"error": "Incorrect current password. Please try again."}), 409)
+        
+        #Checking if the new and confirm passwords match
+        if  new_password!=confirm_password:
+            return make_response(jsonify({"error":"The new password and current passwords do not match!"}), 409)
+        
+        #Checking if the new hashed password is equal to the value of the password in the database
+        if employee.password == hashed_password:
+            return make_response(jsonify({"error": "The new password cannot be the same as the current password."}), 409)
+        
+        #Updating the password
+        employee.password = hashed_password
+        db.session.add(employee)
+        db.session.commit()
+
+        return make_response(jsonify({"success": "Password updated successfully"}))
 
 api.add_resource(Profile, "/profile")
 

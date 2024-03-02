@@ -9,7 +9,7 @@ def update_leave_days():
         employee=leave_day.employee
 
         #Setting the normal and sick leave days
-        leave_day.normal_leave+=200
+        leave_day.normal_leave+=21
         leave_day.sick_leav=14
 
         #Checking the employee's gender and updating the leave days accordingly

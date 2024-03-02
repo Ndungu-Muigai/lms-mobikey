@@ -82,9 +82,9 @@ const Reset = () =>
     {
         e.preventDefault()
 
-        if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}/.test(passwords.new_password)) 
+        if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{10,}/.test(passwords.new_password)) 
         {
-            setErrorMessage("Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one number, and one special character (!@#$%^&*)")
+            setErrorMessage("Password must be at least 10 characters long and contain at least one lowercase letter, one uppercase letter, one number, and one special character (!@#$%^&*)")
         }
         else
         {
