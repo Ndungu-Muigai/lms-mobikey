@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 db=SQLAlchemy()
 
@@ -59,3 +60,11 @@ class LeaveApplication(db.Model):
     hod_status=db.Column(db.Enum("Pending", "Approved", "Rejected"), nullable=False, default="Pending")
     hr_status=db.Column(db.Enum("Pending", "Approved", "Rejected"), nullable=False, default="Pending")
     gm_status=db.Column(db.Enum("Pending", "Approved", "Rejected"), nullable=False, default="Pending")
+
+class OneTimePassword(db.Model):
+
+    __tablename__="otp"
+    id=db.Column(db.Integer, primary_key=True)
+    email=db.Column(db.String, nullable=False)
+    otp=db.Column(db.String, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.now)

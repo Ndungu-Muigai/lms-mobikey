@@ -1,16 +1,18 @@
 from flask import Flask, make_response, request, jsonify, session, url_for, send_from_directory
 from config import AppConfig
 from flask_migrate import Migrate
-from models import db, Employee, LeaveDays, LeaveApplication
+from models import db, Employee, LeaveDays, LeaveApplication, OneTimePassword   
 from flask_restful import Api, Resource
 from schema import EmployeeSchema, LeaveDaysSchema, LeaveApplicationsSchema
 from password import random_password
 import hashlib
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from werkzeug.utils import secure_filename
 import uuid as uuid
 import os
-from mail import send_login_credentials
+from credentials import send_login_credentials
+from otp import get_otp
+from reset import send_otp
 
 app=Flask(__name__)
 app.config.from_object(AppConfig)
@@ -95,6 +97,91 @@ class UpdatePassword(Resource):
         return make_response(jsonify({"success": "Password updated successfully! Redirecting to the dashboard."}),201)
 
 api.add_resource(UpdatePassword, "/update-password")
+
+#OTP Generation Resource
+class GenerateOTP(Resource):
+    def post(self):
+
+        #Getting the email from the front end
+        email=request.json["email"]
+
+        #Checking if the email exists in the database. If it doesn't exist, return an error
+        employee_record=Employee.query.filter_by(email=email).first()
+
+        if not employee_record:
+            print('Not there')
+            return make_response(jsonify({"error": "No account with the given email exists!"}), 404)
+
+        #If email exists, generate a OTP
+        otp=get_otp()
+
+        #Querying the OTP database to check if an OTP exists. If it exists, replace it with a new one
+        existing_otp = OneTimePassword.query.filter_by(email=email).first()
+
+        if existing_otp:
+            existing_otp.otp=otp
+            existing_otp.timestamp=datetime.now()
+
+        else:
+            #Adding the OTP to the database
+            new_otp=OneTimePassword(email=email, otp=otp)
+            db.session.add(new_otp)
+
+        db.session.commit()
+            
+        #Sending the OTP to the user's email
+        send_otp(email=email, otp=otp, last_name=employee_record.last_name, first_name=employee_record.first_name)
+
+        #Returning a success message
+        return make_response(jsonify({"success": "OTP generated successfully! Kindly check your email"}))
+
+api.add_resource(GenerateOTP, "/generate-otp")
+
+#Resource to update the password after OTP generation
+class UpdatePasswordOTP(Resource):
+    def post(self):
+
+        #Getting the data from the front end
+        otp=request.json['otp']
+        new_password=request.json['new_password']
+        confirm_password=request.json['confirm_password']
+
+        #Checking if the OTP exists
+        otp=OneTimePassword.query.filter_by(otp=otp).first()
+
+        if not otp:
+            return make_response(jsonify({"error": "The entered OTP does not exist!"}), 404)
+        
+        #Checking if the timestamp is greater than 15 minutes. If it exceeds, delete the OTP and return an error
+        if datetime.now() - otp.timestamp > timedelta(minutes=15):
+            db.session.delete(otp)
+            db.session.commit()
+            return make_response(jsonify({"error": "OTP has already expired"}), 409)
+
+
+        # Checking if the two passwords match. If not, return an error
+        if new_password != confirm_password:
+            return make_response(jsonify({"error": "Passwords do not match!"}), 400)
+
+        #Checking if the newly entered passwords is equal to the current password
+        employee=Employee.query.filter_by(email=otp.email).first()
+        
+        hashed_password=hashlib.md5(new_password.encode("utf-8")).hexdigest()
+
+        if employee.password == hashed_password:
+            return make_response(jsonify({"error": "The new password cannot be equal to the current password"}), 409)
+        
+        else:
+            #If not, update the password and delete the otp
+            employee.password=hashed_password
+            db.session.add(employee)
+            db.session.delete(otp)
+            db.session.commit()
+
+            #Returning a success message
+            return make_response(jsonify({"success": "Password updated successfully!"}))
+
+api.add_resource(UpdatePasswordOTP, "/update-password-with-otp")
 
 #Dashboard resource
 class Dashboard(Resource):
