@@ -41,11 +41,13 @@ const AllEmployeeRequests = () =>
                 </thead>
                 <tbody>
                     {
-                        requests
+                        requests.length > 0
                         ?
                             requestsMap
                         :
-                            <td colSpan={8}>Fetching data...</td>
+                            <tr>
+                                <td colSpan={8} className='fs-5 p-2'>Fetching requests...</td>
+                            </tr>
                     }
                 </tbody>
             </table>

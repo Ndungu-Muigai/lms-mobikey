@@ -45,7 +45,7 @@ const PendingRequests = () =>
                     {pendingRequests.length === 0
                         ?
                             <tr>
-                                <td colSpan={6} className='fs-5 p-2'>No data could be fetched</td>
+                                <td colSpan={6} className='fs-5 p-2'>No pending requests</td>
                             </tr>
                         :
                             requestsMap
