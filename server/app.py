@@ -347,11 +347,12 @@ class LeaveApplications(Resource):
             #Generating a unigue ID for each file name (makes the filename unique)
             unique_file_name=str(uuid.uuid1()) + "_" + file_name
 
-            #Saving the application files to the respective folder based on the leave type
+           #Saving the application files to the respective folder based on the leave type
+            
             file_attachment.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}/{leave_type}", unique_file_name))
 
             #Saving the unique filename to the database by assigning it to the file attachment variable
-            file_attachment=unique_file_name
+            file_attachment=f"{leave_type}/{unique_file_name}_{file_name}"
 
         #Checking if the employee is either a HOD, HR or GM and updating those fields accordingly
         employee_role=session.get("employee_role")
@@ -539,6 +540,7 @@ api.add_resource(PendingEmployeeRequestsByID, "/pending-employee-requests/<int:i
 #File fetching resource
 class GetFile(Resource):
     def get(self, filename):
+        print("Fetching file")
         return send_from_directory('static', filename)
 
 api.add_resource(GetFile, "/static/<path:filename>")
