@@ -352,7 +352,7 @@ class LeaveApplications(Resource):
             file_attachment.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}/{leave_type}", unique_file_name))
 
             #Saving the unique filename to the database by assigning it to the file attachment variable
-            file_attachment=f"{leave_type}/{unique_file_name}_{file_name}"
+            file_attachment=f"{leave_type}/{unique_file_name}"
 
         #Checking if the employee is either a HOD, HR or GM and updating those fields accordingly
         employee_role=session.get("employee_role")
@@ -391,6 +391,11 @@ class LeaveApplicationByID(Resource):
         
         #Creating a response dict for that specific application
         leave_application_dict=LeaveApplicationsSchema(only=("id", "leave_type","leave_duration", "start_date","end_date","total_days", "file_attachment","reason","hod_status","gm_status","hr_status")).dump(leave_application)
+        
+        #If a file attachment exists, return the file path
+        if leave_application.file_attachment:
+            file_path=f"Uploads/{leave_application.file_attachment}"
+            leave_application_dict["file_attachment"]=file_path
 
         #Creating a response
         return make_response(leave_application_dict, 200)
