@@ -71,17 +71,17 @@ const DashboardLayout = () =>
                         <Sidebar role={role} sidebarOpen={sidebarOpen}/>
                         <main className='main-container' onClick={()=> sidebarOpen && setSidebarOpen(false)}>
                             <Routes>
-                            <Route exact path='/' element={<Dashboard full_name={full_name} leaveDays={leaveDays} upcomingLeaves={upcomingLeaves}/>}></Route>
-                            <Route exact path='/leave' element={<Leave/>}></Route>
-                            <Route exact path='/leave/:id' element={<LeaveRequest/>}></Route>
-                            <Route exact path='/employees' element={<Employees/>}></Route>
-                            <Route exact path='/employees/:id' element={<IndividualEmployee/>}></Route>
-                            <Route exact path='/pending-employee-requests' element={<PendingRequests/>}></Route>
-                            <Route exact path='/pending-employee-requests/:id' element={<RequestDetails/>}></Route>
-                            <Route exact path='/all-employee-requests' element={<AllEmployeeRequests/>}></Route>
-                            <Route exact path='/profile' element={<Profile/>}></Route>
-                            <Route path='*' element={<ErrorPage/>}></Route>
-                        </Routes>
+                                <Route exact path='/' element={<Dashboard full_name={full_name} leaveDays={leaveDays} upcomingLeaves={upcomingLeaves}/>}></Route>
+                                <Route exact path='/leave' element={<Leave/>}></Route>
+                                <Route exact path='/leave/:id' element={<LeaveRequest/>}></Route>
+                                <Route exact path='/employees' element={<Employees/>}></Route>
+                                <Route exact path='/employees/:id' element={<IndividualEmployee/>}></Route>
+                                <Route exact path='/pending-employee-requests' element={<PendingRequests/>}></Route>
+                                <Route exact path='/pending-employee-requests/:id' element={<RequestDetails/>}></Route>
+                                <Route exact path='/all-employee-requests' element={<AllEmployeeRequests/>}></Route>
+                                <Route exact path='/profile' element={<Profile/>}></Route>
+                                <Route path='*' element={<ErrorPage/>}></Route>
+                            </Routes>
                         </main>
                     </>
                 :
