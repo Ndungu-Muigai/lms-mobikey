@@ -147,9 +147,9 @@ class UpdatePasswordOTP(Resource):
         confirm_password=request.json['confirm_password']
 
         #Checking if the OTP exists
-        otp=OneTimePassword.query.filter_by(otp=otp).first()
+        existing_otp=OneTimePassword.query.filter_by(otp=otp).first()
 
-        if not otp:
+        if not existing_otp:
             return make_response(jsonify({"error": "The entered OTP does not exist!"}), 404)
         
         #Checking if the timestamp is greater than 15 minutes. If it exceeds, delete the OTP and return an error
