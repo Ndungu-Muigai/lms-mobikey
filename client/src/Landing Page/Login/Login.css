@@ -1,20 +1,8 @@
-.form
+.form 
 {
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 100px;
 }
-@media screen and (min-width: 320px) and (max-width: 767px)
-{
-    .buttons
-    {
-        display: flex;
-        justify-content: space-evenly;
-    }
-    .buttons button, a
-    {
-        width: 50%;
-    }
-    .container a
-    {
-        width: 100%;   
-    }
-} 
