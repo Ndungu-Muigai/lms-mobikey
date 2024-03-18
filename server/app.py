@@ -411,16 +411,20 @@ class AllRequests(Resource):
         #Looping over all the requests and updating the status variable
         request_list=[]
         for request in leave_requests:
-            if request.hod_status or request.hr_status or request.gm_status == "Rejected":
-                request.status="Rejected"
+            print(request.hod_status)
+            print(request.gm_status)
+            print(request.hr_status)
+
+            if request.hod_status == "Approved" and request.hr_status == "Approved" and request.gm_status=="Approved":
+                request.status="Approved"
                 request_list.append(request)
 
             elif request.hod_status == "Pending" or request.hr_status == "Pending" or request.gm_status=="Pending":
                 request.status="Pending"
                 request_list.append(request)
 
-            elif request.hod_status == "Approved" and request.hr_status == "Approved" and request.gm_status=="Approved":
-                request.status="Approved"
+            else:
+                request.status="Rejected"
                 request_list.append(request)
 
         #Creating a dict of the requests
