@@ -30,7 +30,7 @@ const Days = (start_date, end_date, leave_type, leave_duration) =>
     let sundays=0
 
     //Mapping over the extracted holiday dates and checking if the dates between the start and end dates are holidays
-    let currentDate = new Date(start_date);
+    let currentDate = start_date
     let leaveDates = [];
     while (currentDate <= end_date) 
     {
@@ -42,23 +42,26 @@ const Days = (start_date, end_date, leave_type, leave_duration) =>
         //If the date is in the holidayDates, increment value of holidaysCount
         if (holidayDates.includes(comparedDate)) 
         {
-            holidaysCount++;
+            if(currentDate.getDay() !== 0 || currentDate.getDay() !== 6)
+            {
+                holidaysCount++
+            }
         }
         currentDate.setDate(currentDate.getDate() + 1);
     }
 
-        //Looping over this array that contains all the leave dates and checking if the date is a saturday or sunday
-        leaveDates.forEach(date => 
+    //Looping over this array that contains all the leave dates and checking if the date is a saturday or sunday
+    leaveDates.forEach(date => 
+    {
+        if (date.getDay() === 0)
         {
-            if (date.getDay() === 0)
-            {
-                sundays += 1;
-            } 
-            else if (date.getDay() === 6) 
-            {
-                saturdays += 1;
-            }
-        });
+            sundays += 1;
+        } 
+        else if (date.getDay() === 6) 
+        {
+            saturdays += 1;
+        }
+    });
     
     if(leave_type === "" || leave_duration === "" || start_date === "" || end_date === "")
     {
