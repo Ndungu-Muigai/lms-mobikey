@@ -42,7 +42,7 @@ const Days = (start_date, end_date, leave_type, leave_duration) =>
         //If the date is in the holidayDates, increment value of holidaysCount
         if (holidayDates.includes(comparedDate)) 
         {
-            if(currentDate.getDay() !== 0 || currentDate.getDay() !== 6)
+            if(currentDate.getDay() !== 0 && currentDate.getDay() !== 6)
             {
                 holidaysCount++
             }
