@@ -10,7 +10,7 @@ import {toast} from "react-toastify"
 const Reset = () => 
 {
     const navigate=useNavigate()
-
+    
     const [errorMessage, setErrorMessage] = useState("")
     const [email, setEmail]=useState("")
     const [passwordReset, setPasswordReset] = useState(localStorage.getItem('passwordReset'));
@@ -69,11 +69,11 @@ const Reset = () =>
                         position: "top-right",
                         className: "toast-message",
                         autoClose: 2000,
-                        onClose:  ()=> 
-                        {
-                            localStorage.setItem("passwordReset", false)
-                            setPasswordReset(false)
-                        }
+                        // onClose:  ()=> 
+                        // {
+                        //     localStorage.setItem("passwordReset", false)
+                        //     setPasswordReset(false)
+                        // }
                     })
             })
     }
@@ -156,7 +156,7 @@ const Reset = () =>
                         <Form onSubmit={resetPassword}>
                             <Form.Group className='mx-2 mb-2'>
                                 <Form.Label className='fs-5'>One Time password</Form.Label>
-                                <Form.Control type='text' id="otp" value={passwords.otp} onChange={handlePasswordChange} placeholder='Enter your new password' required></Form.Control>
+                                <Form.Control type='text' id="otp" value={passwords.otp} onChange={handlePasswordChange} placeholder='Enter generated OTP' required></Form.Control>
                             </Form.Group>
                             <Form.Group className='mx-2 mb-2'>
                                 <Form.Label className='fs-5'>New password</Form.Label>

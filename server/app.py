@@ -226,7 +226,7 @@ class Dashboard(Resource):
         today_date=date.today()
 
         #Getting upcoming department leaves
-        upcoming = LeaveApplication.query.join(Employee).filter(Employee.department == employee.department, LeaveApplication.start_date >= today_date, LeaveApplication.end_date >= today_date, LeaveApplication.hod_status=="Approved", LeaveApplication.gm_status=="Approved", LeaveApplication.hr_status=="Approved").all()
+        upcoming = LeaveApplication.query.join(Employee).filter(Employee.department == employee.department, LeaveApplication.start_date >= today_date, LeaveApplication.hod_status=="Approved", LeaveApplication.gm_status=="Approved", LeaveApplication.hr_status=="Approved").all()
         upcoming_schema=LeaveApplicationsSchema(only=("id" ,"employee","start_date", "end_date","total_days")).dump(upcoming, many=True)
 
         #Creating the response to the front end
@@ -482,7 +482,7 @@ class PendingEmployeeRequestsByID(Resource):
         
         #If a file attachment exists, return the file path
         if request and request.file_attachment:
-            file_path = f"Uploads/{request.leave_type}/{request.file_attachment}"  
+            file_path = f"Uploads/{request.file_attachment}"  
             response["file_attachment"] = file_path
 
         return make_response(response, 200)

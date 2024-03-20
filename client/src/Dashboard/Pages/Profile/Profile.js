@@ -127,7 +127,7 @@ const Profile = () =>
                         <Form.Control type='password' id="confirm_password" placeholder='Confirm new password' value={password.confirm_password} onChange={handlePasswordChange} required></Form.Control>
                     </Form.Group>
                     {errorMessage && <div style={{ color: 'red' }} className='mx-2'>{errorMessage}</div>}
-                    <Button variant='success' type='submit' className='mx-auto col-md-2 mt-3'>Update password</Button>
+                    <Button variant='success' type='submit' className='mx-auto col-md-2 mt-3 my-2'>Update password</Button>
                 </Row>
             </Form>
         </>

@@ -21,7 +21,8 @@ const RequestDetails = () =>
         .then(response => response.json())
         .then(data =>setApplicationDetails(data))
     },[id])
-    
+
+    //useEffect hook to fetch the file from the uploads folder if it exists
     useEffect(() => 
     {
         if (applicationDetails && applicationDetails.file_attachment) 
@@ -36,7 +37,7 @@ const RequestDetails = () =>
     {
         return <div>Fetching data...</div>;
     }
-
+    
     const { employee, leave_type, leave_duration, start_date, end_date, total_days, reason, hod_status, hr_status, gm_status } = applicationDetails;
     const first_name = employee ? employee.first_name : '';
     const last_name = employee ? employee.last_name : '';
@@ -55,7 +56,6 @@ const RequestDetails = () =>
         .then(response => response.json())
         .then(data =>
             {
-                console.log(data)
                 data.success
                 ?
                     toast.success(data.success,
