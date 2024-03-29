@@ -309,7 +309,7 @@ class LeaveApplications(Resource):
             days_balance= float(leave_days.normal_leave) - float(total_days)
 
             #If leave balance is less than or equal to 0, return error. Else, update the leave days table
-            if days_balance <= 0:
+            if days_balance < 0:
                 return make_response(jsonify({"error": "You do not have enough leave days"}), 409)
 
             leave_days.normal_leave=days_balance
@@ -317,7 +317,7 @@ class LeaveApplications(Resource):
         elif leave_type == "Sick":
             days_balance= float(leave_days.sick_leave) - float(total_days)
 
-            if days_balance <= 0:
+            if days_balance < 0:
                 return make_response(jsonify({"error": "You do not have enough leave days"}), 409)
             
             leave_days.sick_leave=days_balance
@@ -325,7 +325,7 @@ class LeaveApplications(Resource):
         elif leave_type == "Paternity":
             days_balance= float(leave_days.paternity_leave) - float(total_days)
 
-            if days_balance <= 0:
+            if days_balance < 0:
                 return make_response(jsonify({"error": "You do not have enough leave days"}), 409)
             
             leave_days.paternity_leave=days_balance
@@ -333,7 +333,7 @@ class LeaveApplications(Resource):
         elif leave_type == "Maternity":
             days_balance= float(leave_days.maternity_leave) - float(total_days)
 
-            if days_balance <= 0:
+            if days_balance < 0:
                 return make_response(jsonify({"error": "You do not have enough leave days"}), 409)
             
             leave_days.maternity_leave=days_balance
