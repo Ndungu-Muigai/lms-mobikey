@@ -3,3 +3,6 @@
 
 # Ignore db files inside the instance folder
 instance/*.db
+
+#Ignore pycache 
+__pycache__
