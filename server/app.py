@@ -411,9 +411,6 @@ class AllRequests(Resource):
         #Looping over all the requests and updating the status variable
         request_list=[]
         for request in leave_requests:
-            print(request.hod_status)
-            print(request.gm_status)
-            print(request.hr_status)
 
             if request.hod_status == "Approved" and request.hr_status == "Approved" and request.gm_status=="Approved":
                 request.status="Approved"
