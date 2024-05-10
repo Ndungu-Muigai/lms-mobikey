@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Table from "./Table Body";
-import Departments from '../../Employees/Data/Departments.json'
 
 const AllEmployeeRequests = () => 
 {
