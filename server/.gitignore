@@ -2,7 +2,7 @@
 .env
 
 # Ignore db files inside the instance folder
-instance/*.db
+*.db
 
 #Ignore pycache 
 __pycache__
