@@ -466,7 +466,7 @@ class PendingEmployeeRequests(Resource):
             ).all()
 
         #Creating a response will the fetched requests
-        return make_response(LeaveApplicationsSchema().dump(pending_requests, many=True), 200)
+        return make_response({"pending_requests": LeaveApplicationsSchema().dump(pending_requests, many=True)}, 200)
     
 api.add_resource(PendingEmployeeRequests, "/pending-employee-requests")
 

@@ -12,15 +12,16 @@ const PendingRequests = () =>
     const lastRequestIndex = currentPage * dataPerPage;
     const firstRequestIndex = lastRequestIndex - dataPerPage;
 
-    const currentRequests = pendingRequests.slice(firstRequestIndex, lastRequestIndex);
-    const totalPages = Math.ceil(pendingRequests.length / dataPerPage);
 
     useEffect(()=>
     {
         fetch("/pending-employee-requests")
         .then(response => response.json())
-        .then(data => setPendingRequests(data))
+        .then(data => setPendingRequests(data.pending_requests))
     },[])
+
+    const currentRequests = pendingRequests.slice(firstRequestIndex, lastRequestIndex);
+    const totalPages = Math.ceil(pendingRequests.length / dataPerPage);
 
     const requestsMap=currentRequests.map(request => 
         {
